@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="color-scheme" content="dark light" />
+  <title>Daniil Kuskalo</title>
+  <link rel="stylesheet" href="style.css">
+  <meta name="description" content="Daniil Kuskalo — programmer portfolio. Minimal, techy, quirky. Single-file HTML." />
+
+
+</head>
+
+<body>
+
+  <canvas id="fx" aria-hidden="true"></canvas>
+  <div class="noise" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="avatar" aria-hidden="true"></div>
+        <img src="img/avatar.png" alt="pucci">
+        <div>
+          <h1>Daniil Kuskalo</h1>
+          <span class="sub">$ whoami → dev</span>
+        </div>
+      </div>
+
+      <nav aria-label="Primary">
+        <span class="pill"><span class="dot"></span>Python</span>
+        <span class="pill"><span class="dot"></span>Django</span>
+        <span class="pill"><span class="dot"></span>AI</span>
+        <span class="pill"><span class="dot"></span>Backend</span>
+      </nav>
+    </header>
+
+    <section class="hero" id="top">
+      <article class="card">
+        <div class="inner">
+          <h2 class="title">
+            Try <em>hard</em>, think <em>smart</em>, learn <em>much</em>.
+          </h2>
+          <p class="lead">
+            My name is Daniil Kuskalo — a FullStack dev who likes clean architecture, hard work,
+            and innovation. This portfolio was created by me, as my first HTML/CSS project.
+            Also I'm an informatics technician.
+          </p>
+
+          <div class="actions">
+            <a class="btn primary" href="#projects" title="Jump to projects">
+              <span>View projects</span>
+              <span class="kbd">↗</span>
+            </a>
+            <a class="btn" href="https://github.com/" target="_blank" rel="noreferrer">
+              <span>GitHub</span>
+              <span class="kbd">↗</span>
+            </a>
+            <a class="btn" href="https://www.linkedin.com/" target="_blank" rel="noreferrer">
+              <span>LinkedIn</span>
+              <span class="kbd">↗</span>
+            </a>
+            <a class="btn" href="#contact" title="Contact me">
+              <span>Contact</span>
+              <span class="kbd">↗</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="terminal" aria-label="Terminal intro">
+          <div class="termbar" aria-hidden="true">
+            <span class="lamp red"></span><span class="lamp yellow"></span><span class="lamp green"></span>
+            <span style="margin-left:8px;color:var(--muted2)">daniil@portfolio</span>
+            <span style="color:var(--muted2)">:~</span>
+          </div>
+
+          <div>
+            <span class="prompt">$</span> cat skills.txt<br/>
+            <span style="color:var(--good)">✓</span> Python + FullStack<br/>
+            <span style="color:var(--good)">✓</span> Optimisation-aware, social<br/>
+            <span style="color:var(--good)">✓</span> The GOAT in programming<br/>
+            <span class="prompt">$</span> echo "skilled but fast"<span class="cursor" aria-hidden="true"></span>
+          </div>
+        </div>
+      </article>
+
+      <aside class="card">
+        <div class="inner">
+          <p class="section-title">Info</p>
+          <div class="list">
+            <div class="item">
+              <div>
+                <strong>Languages</strong>
+                <p>English, Russian, Ukrainian, Polish</p>
+              </div>
+              <div class="meta">native</div>
+            </div>
+
+            <div class="item">
+              <div>
+                <strong>Focus</strong>
+                <p>Hardware, systems, automation, AI, and learning new skills.</p>
+              </div>
+              <div class="meta">IT</div>
+            </div>
+
+            <div class="item">
+              <div>
+                <strong>Current quest</strong>
+                <p>Find a job.</p>
+              </div>
+              <div class="meta">now()</div>
+            </div>
+          </div>
+
+          <div style="margin-top:14px">
+            <p class="section-title">Quick links</p>
+            <div class="tags">
+              <a class="tag glitch" href="#" title="Add your resume.pdf link">resume.pdf</a>
+              <a class="tag glitch" href="#" title="Add your blog link">/blog</a>
+              <a class="tag glitch" href="#" title="Add your repo link">/dotfiles</a>
+              <span class="tag" title="Psst: press ?">press ?</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="grid">
+      <article class="card" id="projects">
+        <div class="inner">
+          <h3 class="section-title">Projects</h3>
+          <div class="list">
+            <div class="item">
+              <div>
+                <strong>Project A — <span class="glitch">This portfolio</span></strong>
+                <p>Literally, this portfolio site.</p>
+              </div>
+              <div class="meta">HTML · CSS</div>
+            </div>
+
+            <div class="item">
+              <div>
+                <strong>Project B — <span class="glitch">Hotel website</span></strong>
+                <p>Website built for Infiniti Apartments, by me.</p>
+              </div>
+              <div class="meta">Django · React</div>
+            </div>
+
+            <div class="item">
+              <div>
+                <strong>Project C — <span class="glitch">Bitcoin trading simulator</span></strong>
+                <p>Project, where people can train on real-time data stock market, using fake dollars.</p>
+              </div>
+              <div class="meta">JavaScript · Django</div>
+            </div>
+          </div>
+
+          <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap">
+            <a class="btn" href="https://github.com/vairan9" target="_blank" rel="noreferrer">More on GitHub <span class="kbd">↗</span></a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" id="skills">
+        <div class="inner">
+          <h3 class="section-title">Skills</h3>
+          <div class="tags" role="list">
+            <span class="tag" role="listitem">Backend</span>
+            <span class="tag" role="listitem">APIs</span>
+            <span class="tag" role="listitem">Databases</span>
+            <span class="tag" role="listitem">Linux</span>
+            <span class="tag" role="listitem">Programming</span>
+            <span class="tag" role="listitem">Testing</span>
+            <span class="tag" role="listitem">Administration</span>
+            <span class="tag" role="listitem">AI</span>
+            <span class="tag" role="listitem">Android</span>
+          </div>
+
+          <div style="margin-top:14px">
+            <h3 class="section-title">Education</h3>
+            <div class="list">
+              <div class="item">
+                <div>
+                  <strong>CISCO</strong>
+                  <p>(Cisco certificate)</p>
+                </div>
+                <div class="meta">in progress…</div>
+              </div>
+              <div class="item">
+                <div>
+                  <strong>Qualifications</strong>
+                  <p>INF02, INF03</p>
+                </div>
+                <div class="meta">Poland</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="grid">
+      <article class="card" id="about">
+        <div class="inner">
+          <h3 class="section-title">About</h3>
+          <p class="lead" style="margin-bottom: 0;">
+            I am Daniil Kuskalo. I'm a student that lives happily in Poland. I really like and interested in computers and programming. Also good in Android Studio
+          </p>
+
+          <div style="margin-top:14px" class="terminal" aria-label="Fun facts terminal">
+            <div class="termbar" aria-hidden="true">
+              <span class="lamp red"></span><span class="lamp yellow"></span><span class="lamp green"></span>
+              <span style="margin-left:8px;color:var(--muted2)">daniil@facts</span>
+              <span style="color:var(--muted2)">:~</span>
+            </div>
+            <div id="funFacts">
+              <span class="prompt">$</span> cat fun_facts.txt<br/>
+              → dogs>cats<br/>
+              → prefers women<br/>
+              → will refactor for readability (and sleep)<br/>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" id="contact">
+        <div class="inner">
+          <h3 class="section-title">Contact</h3>
+          <div class="list">
+            <div class="item">
+              <div>
+                <strong>Email</strong>
+                <p><a class="glitch" href="mailto:daniilkuskalo2@gmail.com">daniilkuskalo2@example.com</a></p>
+              </div>
+              <div class="meta">mail</div>
+            </div>
+            <div class="item">
+              <div>
+                <strong>GitHub</strong>
+                <p><a class="glitch" href="https://github.com/vairan9" target="_blank" rel="noreferrer">github.com/vairan9</a></p>
+              </div>
+              <div class="meta">code</div>
+            </div>
+            <div class="item">
+              <div>
+                <strong>Discord</strong>
+                <p><p>mighty_vairan</p></p>
+              </div>
+              <div class="meta">business</div>
+            </div>
+          </div>
+
+          <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap">
+            <a class="btn primary" href="#" id="copyEmailBtn">Copy email <span class="kbd">⎘</span></a>
+
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <footer>
+      <span>© <span id="year"></span> Daniil Kuskalo · built with <span class="glitch">hope and dreams</span> · no bootstrap used</span>
+    </footer>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
