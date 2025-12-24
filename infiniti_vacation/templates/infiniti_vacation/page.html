@@ -1,0 +1,172 @@
+{% load static %}
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="color-scheme" content="dark light" />
+  <title>Infiniti Vacation · Leśne apartamenty</title>
+  <meta name="description" content="Infiniti Vacation — leśne apartamenty. Spokojny wypoczynek, ciepłe wnętrza, prosty design." />
+
+  <link rel="stylesheet" href="{% static 'infiniti_vacation/css/site.css' %}">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">Przejdź do treści</a>
+
+  {% include "infiniti_vacation/partials/header.html" %}
+
+  <main id="main">
+    <!-- HERO + SLIDER -->
+    <section class="hero" id="top">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <h1>Zatrzymaj się tam, gdzie powietrze jest <span class="accent">żywe</span>.</h1>
+          <p class="lead">
+            Apartamenty Infiniti Vacation — leśny spokój, ciepłe wnętrza i wszystko, czego potrzebujesz, by odpocząć.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn primary" href="#apartments">Zobacz apartamenty</a>
+            <a class="btn ghost" href="#gallery">Zobacz galerię</a>
+          </div>
+
+          <div class="hero-stats" role="list" aria-label="Najważniejsze informacje">
+            <div class="stat" role="listitem"><strong>24/7</strong><span>Samodzielne zameldowanie</span></div>
+            <div class="stat" role="listitem"><strong>1–6</strong><span>Gości</span></div>
+            <div class="stat" role="listitem"><strong>Szybkie</strong><span>Wi-Fi</span></div>
+          </div>
+        </div>
+
+        <div class="slider card" id="gallery" aria-label="Galeria zdjęć apartamentów">
+          <div class="slider-viewport" data-slider>
+            <figure class="slide is-active">
+              <img src="{% static 'infiniti_vacation/img/slide-1.jpg' %}" alt="Zewnętrzny widok apartamentu w lesie o wschodzie słońca">
+              <figcaption>Poranne światło · spokojny widok na las</figcaption>
+            </figure>
+
+            <figure class="slide">
+              <img src="{% static 'infiniti_vacation/img/slide-2.jpg' %}" alt="Ciepły salon z drewnianymi elementami i roślinami">
+              <figcaption>Ciepłe wnętrze · drewno i rośliny</figcaption>
+            </figure>
+
+            <figure class="slide">
+              <img src="{% static 'infiniti_vacation/img/slide-3.jpg' %}" alt="Sypialnia z miękkim światłem w leśnej kolorystyce">
+              <figcaption>Głęboki sen · miękkie światło</figcaption>
+            </figure>
+          </div>
+
+          <div class="slider-ui">
+            <button class="icon-btn" type="button" data-prev aria-label="Poprzednie zdjęcie">←</button>
+            <div class="dots" role="tablist" aria-label="Wybierz zdjęcie">
+              <button class="dot is-active" type="button" data-dot="0" role="tab" aria-selected="true"></button>
+              <button class="dot" type="button" data-dot="1" role="tab" aria-selected="false"></button>
+              <button class="dot" type="button" data-dot="2" role="tab" aria-selected="false"></button>
+            </div>
+            <button class="icon-btn" type="button" data-next aria-label="Następne zdjęcie">→</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- APARTMENTS -->
+    <section class="section" id="apartments">
+      <div class="container">
+        <div class="section-head">
+          <h2>Apartamenty</h2>
+          <p class="muted">Na razie proste karty — później możesz je generować z modeli Django.</p>
+        </div>
+
+        <div class="grid-3">
+          <article class="card listing">
+            <div class="listing-top">
+              <span class="chip">2 osoby</span>
+              <span class="chip">1 łóżko</span>
+              <span class="chip">Widok na las</span>
+            </div>
+            <h3>Świerkowe Studio</h3>
+            <p class="muted">Kompaktowe i spokojne — idealne na weekendowy reset.</p>
+            <div class="listing-bottom">
+              <span class="price">od <strong>299 zł</strong> / noc</span>
+              <a class="btn small" href="#">Szczegóły</a>
+            </div>
+          </article>
+
+          <article class="card listing">
+            <div class="listing-top">
+              <span class="chip">4 osoby</span>
+              <span class="chip">2 łóżka</span>
+              <span class="chip">Kuchnia</span>
+            </div>
+            <h3>Apartament Sosnowy</h3>
+            <p class="muted">Przestrzeń dla rodziny lub przyjaciół z przytulną strefą dzienną.</p>
+            <div class="listing-bottom">
+              <span class="price">od <strong>449 zł</strong> / noc</span>
+              <a class="btn small" href="#">Szczegóły</a>
+            </div>
+          </article>
+
+          <article class="card listing">
+            <div class="listing-top">
+              <span class="chip">6 osób</span>
+              <span class="chip">3 łóżka</span>
+              <span class="chip">Taras</span>
+            </div>
+            <h3>Leśna Rezydencja</h3>
+            <p class="muted">Więcej przestrzeni i komfortu — idealna na dłuższe pobyty.</p>
+            <div class="listing-bottom">
+              <span class="price">od <strong>599 zł</strong> / noc</span>
+              <a class="btn small" href="#">Szczegóły</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- AMENITIES -->
+    <section class="section" id="amenities">
+      <div class="container">
+        <div class="section-head">
+          <h2>Udogodnienia</h2>
+          <p class="muted">Leśny klimat, ale w praktycznym wydaniu.</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="card amenity">
+            <h3>Komfort</h3>
+            <ul class="bullets">
+              <li>Ciepłe oświetlenie i naturalne materiały</li>
+              <li>Wysokiej jakości pościel</li>
+              <li>Przyjazne godziny ciszy</li>
+            </ul>
+          </div>
+
+          <div class="card amenity">
+            <h3>Wygoda</h3>
+            <ul class="bullets">
+              <li>Samodzielne zameldowanie</li>
+              <li>Szybkie Wi-Fi</li>
+              <li>Parking i czytelne wskazówki dojazdu</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section cta">
+      <div class="container cta-inner">
+        <div>
+          <h2>Gotowy na spokojny pobyt?</h2>
+          <p class="muted">W przyszłości ten przycisk może otwierać formularz rezerwacji lub kalendarz.</p>
+        </div>
+        <a class="btn primary" href="#apartments">Sprawdź dostępne terminy</a>
+      </div>
+    </section>
+  </main>
+
+  {% include "infiniti_vacation/partials/footer.html" %}
+
+  <script src="{% static 'infiniti_vacation/js/site.js' %}"></script>
+</body>
+</html>

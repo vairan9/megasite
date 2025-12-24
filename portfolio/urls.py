@@ -8,4 +8,5 @@ def launcher(request):
 urlpatterns = [
     path("", launcher, name="launcher"),
     path("portfolio/", views.portfolio, name="portfolio"),
+    path("website/", views.website, name="website"),
 ]

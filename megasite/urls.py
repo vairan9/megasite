@@ -17,8 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", include("portfolio.urls")),
+
+    path("", include("portfolio.urls")),  # Twoje stare / główne
+    path("website/", include("infiniti_vacation.urls")),  # Infiniti pod /website/
 ]
