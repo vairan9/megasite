@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Launcher</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'launcher.css' %}">
+</head>
+
+<body>
+<div class="background"></div>
+
+<main class="launcher">
+    <h1 class="headline">Daniil Kuskalo</h1>
+    <p class="sub">Check out my projects I made!</p>
+
+    <section class="grid">
+        <a href="/portfolio" class="card">
+            <span class="icon">📐</span>
+            <span class="label">Portfolio</span>
+        </a>
+
+        <a href="/crm" class="card">
+            <span class="icon">🧩</span>
+            <span class="label">Infiniti vacation</span>
+        </a>
+
+        <a href="/blog" class="card">
+            <span class="icon">✍️</span>
+            <span class="label">Blog</span>
+        </a>
+
+        <a href="/tools" class="card">
+            <span class="icon">🛠️</span>
+            <span class="label">Tools</span>
+        </a>
+
+        <a href="/contact" class="card">
+            <span class="icon">📨</span>
+            <span class="label">Contact</span>
+        </a>
+    </section>
+</main>
+</body>
+</html>

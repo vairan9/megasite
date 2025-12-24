@@ -1,0 +1,92 @@
+:root {
+    --bg1: #0f323e;
+    --bg2: #261c3e;
+    --bg3: #000000;
+    --glass: rgba(255, 255, 255, 0.12);
+    --border: rgba(255, 255, 255, 0.25);
+}
+
+* {
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    color: #fff;
+    overflow: hidden;
+}
+
+.background {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
+    z-index: -1;
+}
+
+/* ---- Layout ---- */
+
+.launcher {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+    text-align: center;
+}
+
+.headline {
+    font-size: 2.4rem;
+    margin-bottom: 6px;
+}
+
+.sub {
+    opacity: 0.75;
+    margin-bottom: 36px;
+}
+
+/* ---- Grid ---- */
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 22px;
+    width: 100%;
+    max-width: 900px;
+}
+
+/* ---- Cards ---- */
+
+.card {
+    background: var(--glass);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(10px);
+    border-radius: 18px;
+    padding: 26px 18px;
+    text-decoration: none;
+    color: white;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+
+    transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card:hover {
+    transform: translateY(-6px) scale(1.03);
+    background: rgba(255, 255, 255, 0.18);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+}
+
+.icon {
+    font-size: 2.2rem;
+}
+
+.label {
+    font-size: 1.05rem;
+    font-weight: 500;
+}
