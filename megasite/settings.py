@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'portfolio',
-    'infiniti_vacation',
+    "infiniti_vacation.apps.InfinitiVacationConfig",
 ]
 
 MIDDLEWARE = [

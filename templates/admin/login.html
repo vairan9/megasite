@@ -1,0 +1,63 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'admin_custom/admin_login.css' %}">
+{% endblock %}
+
+{% block bodyclass %}{{ block.super }} admin-login-custom{% endblock %}
+
+{% block content %}
+<div class="login-wrap">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="login-mark" aria-hidden="true"></div>
+      <div>
+        <h1>INFINITI Administracja</h1>
+        <p class="login-sub">Secure access · Infiniti Vacation</p>
+      </div>
+    </div>
+
+    {% if form.errors %}
+      <p class="errornote">
+        {% if form.errors.items|length == 1 %}
+          {% translate "Please correct the error below." %}
+        {% else %}
+          {% translate "Please correct the errors below." %}
+        {% endif %}
+      </p>
+    {% endif %}
+
+    <form action="{{ app_path }}" method="post" id="login-form">
+      {% csrf_token %}
+
+      <div class="form-row">
+        <label for="{{ form.username.id_for_label }}">{{ form.username.label }}:</label>
+        {{ form.username }}
+      </div>
+
+      <div class="form-row">
+        <label for="{{ form.password.id_for_label }}">{{ form.password.label }}:</label>
+        {{ form.password }}
+      </div>
+
+      <input type="hidden" name="next" value="{{ next }}">
+
+      <div class="submit-row">
+        <input type="submit" value="{% translate 'Log in' %}">
+      </div>
+    </form>
+
+    <div class="password-reset">
+      {% if password_reset_url %}
+        <a href="{{ password_reset_url }}">{% translate "Forgotten your password or username?" %}</a>
+      {% endif %}
+    </div>
+
+    <div class="login-foot">
+      <span class="hint">Infiniti vacation</span>
+    </div>
+  </div>
+</div>
+{% endblock %}

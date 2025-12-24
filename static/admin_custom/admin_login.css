@@ -1,0 +1,200 @@
+/* ===== Admin login: Infiniti Vacation theme ===== */
+
+html, body{
+  height: 100%;
+}
+
+/* page background + stop scroll */
+body.admin-login-custom{
+  min-height: 100vh;
+  overflow: hidden;
+
+  background:
+    radial-gradient(1100px 600px at 20% 0%, rgba(105,240,174,.14), transparent 60%),
+    radial-gradient(900px 520px at 85% 10%, rgba(125,211,252,.12), transparent 55%),
+    linear-gradient(180deg, #06110b, #0b1a11);
+}
+
+/* remove default admin chrome on login */
+body.admin-login-custom #header,
+body.admin-login-custom .breadcrumbs,
+body.admin-login-custom #nav-sidebar,
+body.admin-login-custom .toggle-nav-sidebar,
+body.admin-login-custom .nav-sidebar,
+body.admin-login-custom .nav-sidebar-toggle{
+  display: none !important;
+}
+
+/* remove default layout constraints */
+body.admin-login-custom #container,
+body.admin-login-custom #content,
+body.admin-login-custom #content-main{
+  width: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  float: none !important;
+  background: transparent !important;
+  border: 0 !important;
+}
+
+/* remove "Log in" heading rendered by admin */
+body.admin-login-custom #content > h1,
+body.admin-login-custom .content-title{
+  display: none !important;
+}
+
+/* ensure no sidebar spacing */
+body.admin-login-custom #content{
+  margin-left: 0 !important;
+}
+
+/* place the card higher */
+body.admin-login-custom .login-wrap{
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 12vh 16px 0;
+}
+
+/* card */
+body.admin-login-custom .login-card{
+  width: min(520px, 100%);
+  border-radius: 18px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.12);
+  box-shadow: 0 22px 70px rgba(0,0,0,.55);
+  backdrop-filter: blur(12px);
+  padding: 18px 18px 14px;
+}
+
+/* header inside card */
+body.admin-login-custom .login-header{
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 8px 6px 14px;
+  border-bottom: 1px solid rgba(255,255,255,.10);
+  margin-bottom: 10px;
+}
+
+body.admin-login-custom .login-mark{
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(105,240,174,.95), transparent 55%),
+    radial-gradient(circle at 70% 70%, rgba(125,211,252,.55), transparent 55%),
+    rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.14);
+  box-shadow: 0 12px 32px rgba(0,0,0,.40);
+}
+
+body.admin-login-custom .login-header h1{
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.15;
+  color: rgba(255,255,255,.92);
+  font-weight: 800;
+  letter-spacing: .2px;
+}
+
+body.admin-login-custom .login-sub{
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: rgba(255,255,255,.70);
+}
+
+/* make Django's login wrapper transparent */
+body.admin-login-custom .login{
+  width: 100% !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+body.admin-login-custom .login form{
+  padding: 8px 6px 6px !important;
+}
+
+body.admin-login-custom .form-row{
+  padding: 10px 6px 6px;
+}
+
+body.admin-login-custom .login label{
+  color: rgba(255,255,255,.76) !important;
+  font-size: 13px;
+}
+
+/* fields */
+body.admin-login-custom .login input[type="text"],
+body.admin-login-custom .login input[type="password"]{
+  width: 100% !important;
+  height: 44px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.14) !important;
+  background: rgba(255,255,255,.06) !important;
+  color: rgba(255,255,255,.92) !important;
+  padding: 0 12px !important;
+  outline: none;
+}
+
+body.admin-login-custom .login input[type="text"]:focus,
+body.admin-login-custom .login input[type="password"]:focus{
+  border-color: rgba(105,240,174,.45) !important;
+  box-shadow: 0 0 0 4px rgba(105,240,174,.14);
+}
+
+/* submit */
+body.admin-login-custom .login .submit-row{
+  padding: 14px 6px 6px !important;
+}
+
+body.admin-login-custom .login .submit-row input[type="submit"]{
+  width: 100% !important;
+  height: 44px;
+  border-radius: 14px;
+  border: 1px solid rgba(105,240,174,.35) !important;
+  background: rgba(105,240,174,.16) !important;
+  color: rgba(255,255,255,.92) !important;
+  font-weight: 700;
+  letter-spacing: .2px;
+}
+
+body.admin-login-custom .login .submit-row input[type="submit"]:hover{
+  background: rgba(105,240,174,.22) !important;
+}
+
+/* errors */
+body.admin-login-custom .errornote,
+body.admin-login-custom ul.errorlist{
+  background: rgba(255, 80, 80, .10) !important;
+  border: 1px solid rgba(255, 80, 80, .25) !important;
+  color: rgba(255,255,255,.92) !important;
+  border-radius: 14px;
+}
+
+/* password reset link */
+body.admin-login-custom .password-reset{
+  padding: 8px 6px 0;
+}
+
+body.admin-login-custom .password-reset a{
+  color: rgba(255,255,255,.70);
+  text-decoration: none;
+  font-size: 13px;
+}
+
+body.admin-login-custom .password-reset a:hover{
+  color: rgba(255,255,255,.92);
+  text-decoration: underline;
+}
+
+/* footer hint */
+body.admin-login-custom .login-foot{
+  margin-top: 10px;
+  padding: 10px 6px 2px;
+  border-top: 1px solid rgba(255,255,255,.10);
+  color: rgba(255,255,255,.60);
+  font-size: 12px;
+}
