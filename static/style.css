@@ -37,7 +37,7 @@
     html,body{ height: 100%; }
     body{
       margin: 0;
-      font-family: var(--sans);
+        font-family: var(--sans);
       color: var(--text);
       background: radial-gradient(1200px 700px at 12% 10%, rgba(139,92,246,.16), transparent 60%),
                   radial-gradient(1000px 600px at 85% 20%, rgba(34,211,238,.14), transparent 55%),
@@ -335,11 +335,10 @@
 
     footer{
       margin-top: 16px;
-      color: var(--muted2);
       font-size: 12px;
       text-align: center;
     }
-    footer a{ color: inherit; }
+
 
 
     .glitch{
