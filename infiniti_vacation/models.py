@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 
 
 class Apartment(models.Model):
@@ -7,36 +8,44 @@ class Apartment(models.Model):
     Apartment you can show on the website.
     Availability is determined by Booking records.
     """
-    name = models.CharField(max_length=120)
-    slug = models.SlugField(max_length=140, unique=True)
 
-    short_description = models.CharField(max_length=220, blank=True)
-    description = models.TextField(blank=True)
+    name = models.CharField(_("Name"), max_length=120)
+    slug = models.SlugField(_("Slug"), max_length=140, unique=True)
 
-    guests_max = models.PositiveSmallIntegerField(default=2)
-    beds = models.PositiveSmallIntegerField(default=1)
+    short_description = models.CharField(
+        _("Short description"), max_length=220, blank=True
+    )
+    description = models.TextField(_("Description"), blank=True)
 
-    has_kitchen = models.BooleanField(default=False)
-    has_terrace = models.BooleanField(default=False)
-    forest_view = models.BooleanField(default=True)
+    guests_max = models.PositiveSmallIntegerField(_("Max guests"), default=2)
+    beds = models.PositiveSmallIntegerField(_("Beds"), default=1)
 
-    price_per_night_pln = models.DecimalField(max_digits=8, decimal_places=2)
+    has_kitchen = models.BooleanField(_("Kitchen"), default=False)
+    has_terrace = models.BooleanField(_("Terrace"), default=False)
+    forest_view = models.BooleanField(_("Forest view"), default=True)
 
-    # No Pillow required:
-    # Put a static path like "infiniti_vacation/img/slide-1.jpg"
-    # or an external URL if you want.
-    cover_image_path = models.CharField(
-        max_length=255,
-        blank=True,
-        help_text="Example: infinitivacation/img/apt-1.jpg or static path: infiniti_vacation/img/slide-1.jpg",
+    price_per_night_pln = models.DecimalField(
+        _("Price per night (PLN)"), max_digits=8, decimal_places=2
     )
 
-    is_active = models.BooleanField(default=True)
+    cover_image_path = models.CharField(
+        _("Cover image path"),
+        max_length=255,
+        blank=True,
+        help_text=_(
+            "Example: infinitivacation/img/apt-1.jpg or static path: "
+            "infiniti_vacation/img/slide-1.jpg"
+        ),
+    )
 
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(_("Active"), default=True)
+
+    created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
+    updated_at = models.DateTimeField(_("Updated at"), auto_now=True)
 
     class Meta:
+        verbose_name = _("Apartment")
+        verbose_name_plural = _("Apartments")
         ordering = ["name"]
         indexes = [
             models.Index(fields=["is_active"]),
@@ -51,42 +60,52 @@ class Booking(models.Model):
     """
     A booking or a manual block (maintenance, owner stay, etc.).
     If status != CANCELLED, it blocks availability.
-    Range is [start_date, end_date) (end date is checkout day, not a night).
+    Range is [start_date, end_date).
     """
 
     class Status(models.TextChoices):
-        TENTATIVE = "tentative", "Tentative"
-        CONFIRMED = "confirmed", "Confirmed"
-        CANCELLED = "cancelled", "Cancelled"
+        TENTATIVE = "tentative", _("Tentative")
+        CONFIRMED = "confirmed", _("Confirmed")
+        CANCELLED = "cancelled", _("Cancelled")
 
     class Kind(models.TextChoices):
-        BOOKING = "booking", "Booking"
-        BLOCK = "block", "Block (maintenance)"
+        BOOKING = "booking", _("Booking")
+        BLOCK = "block", _("Block (maintenance)")
 
     apartment = models.ForeignKey(
-        Apartment, on_delete=models.CASCADE, related_name="bookings"
+        Apartment,
+        on_delete=models.CASCADE,
+        related_name="bookings",
+        verbose_name=_("Apartment"),
     )
 
-    start_date = models.DateField()  # check-in day
-    end_date = models.DateField()    # check-out day (not included)
+    start_date = models.DateField(_("Start date"))  # check-in
+    end_date = models.DateField(_("End date"))      # check-out
 
     status = models.CharField(
-        max_length=16, choices=Status.choices, default=Status.CONFIRMED
+        _("Status"),
+        max_length=16,
+        choices=Status.choices,
+        default=Status.CONFIRMED,
     )
     kind = models.CharField(
-        max_length=16, choices=Kind.choices, default=Kind.BOOKING
+        _("Kind"),
+        max_length=16,
+        choices=Kind.choices,
+        default=Kind.BOOKING,
     )
 
-    # Optional guest/contact fields (can be empty for BLOCK)
-    guest_name = models.CharField(max_length=120, blank=True)
-    guest_email = models.EmailField(blank=True)
-    guest_phone = models.CharField(max_length=40, blank=True)
+    guest_name = models.CharField(_("Guest name"), max_length=120, blank=True)
+    guest_email = models.EmailField(_("Guest email"), blank=True)
+    guest_phone = models.CharField(_("Guest phone"), max_length=40, blank=True)
 
-    note = models.TextField(blank=True)
+    note = models.TextField(_("Note"), blank=True)
 
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
 
     class Meta:
+        verbose_name = _("Booking")
+        verbose_name_plural = _("Bookings")
         ordering = ["-start_date"]
         indexes = [
             models.Index(fields=["apartment", "start_date", "end_date"]),
@@ -95,27 +114,37 @@ class Booking(models.Model):
         ]
 
     def __str__(self) -> str:
-        return f"{self.apartment.name}: {self.start_date} → {self.end_date} ({self.status})"
+        return _(
+            "%(apartment)s: %(start)s → %(end)s (%(status)s)"
+        ) % {
+            "apartment": self.apartment.name,
+            "start": self.start_date,
+            "end": self.end_date,
+            "status": self.status,
+        }
 
     def clean(self):
-        # basic validation
         if self.end_date <= self.start_date:
-            raise ValidationError("end_date must be after start_date.")
+            raise ValidationError(
+                _("End date must be after start date.")
+            )
 
-        # cancelled bookings do not block availability
         if self.status == self.Status.CANCELLED:
             return
 
-        # overlap protection
         qs = Booking.objects.filter(apartment=self.apartment).exclude(pk=self.pk)
         qs = qs.exclude(status=self.Status.CANCELLED)
 
-        # Overlap rule for [start, end):
-        # start < existing_end AND end > existing_start
-        overlap = qs.filter(start_date__lt=self.end_date, end_date__gt=self.start_date)
+        overlap = qs.filter(
+            start_date__lt=self.end_date,
+            end_date__gt=self.start_date,
+        )
+
         if overlap.exists():
-            raise ValidationError("This date range overlaps with an existing booking/block.")
+            raise ValidationError(
+                _("This date range overlaps with an existing booking or block.")
+            )
 
     def save(self, *args, **kwargs):
-        self.full_clean()  # runs clean() every time
+        self.full_clean()
         return super().save(*args, **kwargs)
