@@ -69,59 +69,45 @@
       </div>
     </section>
 
-    <!-- APARTMENTS -->
-    <section class="section" id="apartments">
-      <div class="container">
-        <div class="section-head">
-          <h2>Apartamenty</h2>
-          <p class="muted">Na razie proste karty — później możesz je generować z modeli Django.</p>
-        </div>
+<!-- APARTMENTS -->
+<section class="section" id="apartments">
+  <div class="container">
+    <div class="section-head">
+      <h2>Apartamenty</h2>
+    </div>
 
-        <div class="grid-3">
-          <article class="card listing">
-            <div class="listing-top">
-              <span class="chip">2 osoby</span>
-              <span class="chip">1 łóżko</span>
-              <span class="chip">Widok na las</span>
-            </div>
-            <h3>Świerkowe Studio</h3>
-            <p class="muted">Kompaktowe i spokojne — idealne na weekendowy reset.</p>
-            <div class="listing-bottom">
-              <span class="price">od <strong>299 zł</strong> / noc</span>
-              <a class="btn small" href="#">Szczegóły</a>
-            </div>
-          </article>
+    <div class="grid-3">
+      {% for apt in apartments %}
+        <article class="card listing">
+          <div class="listing-top">
+            <span class="chip">{{ apt.guests_max }} {% if apt.guests_max == 1 %}osoba{% else %}osoby{% endif %}</span>
+            <span class="chip">{{ apt.beds }} {% if apt.beds == 1 %}łóżko{% else %}łóżka{% endif %}</span>
 
-          <article class="card listing">
-            <div class="listing-top">
-              <span class="chip">4 osoby</span>
-              <span class="chip">2 łóżka</span>
-              <span class="chip">Kuchnia</span>
-            </div>
-            <h3>Apartament Sosnowy</h3>
-            <p class="muted">Przestrzeń dla rodziny lub przyjaciół z przytulną strefą dzienną.</p>
-            <div class="listing-bottom">
-              <span class="price">od <strong>449 zł</strong> / noc</span>
-              <a class="btn small" href="#">Szczegóły</a>
-            </div>
-          </article>
+            {% if apt.forest_view %}<span class="chip">Widok na las</span>{% endif %}
+            {% if apt.has_kitchen %}<span class="chip">Kuchnia</span>{% endif %}
+            {% if apt.has_terrace %}<span class="chip">Taras</span>{% endif %}
+          </div>
 
-          <article class="card listing">
-            <div class="listing-top">
-              <span class="chip">6 osób</span>
-              <span class="chip">3 łóżka</span>
-              <span class="chip">Taras</span>
-            </div>
-            <h3>Leśna Rezydencja</h3>
-            <p class="muted">Więcej przestrzeni i komfortu — idealna na dłuższe pobyty.</p>
-            <div class="listing-bottom">
-              <span class="price">od <strong>599 zł</strong> / noc</span>
-              <a class="btn small" href="#">Szczegóły</a>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
+          <h3>{{ apt.name }}</h3>
+
+          {% if apt.short_description %}
+            <p class="muted">{{ apt.short_description }}</p>
+          {% elif apt.description %}
+            <p class="muted">{{ apt.description|truncatechars:120 }}</p>
+          {% endif %}
+
+          <div class="listing-bottom">
+            <span class="price">od <strong>{{ apt.price_per_night_pln }} zł</strong> / noc</span>
+          </div>
+        </article>
+      {% empty %}
+        <p class="muted">Brak aktywnych apartamentów.</p>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
 
     <!-- AMENITIES -->
     <section class="section" id="amenities">
