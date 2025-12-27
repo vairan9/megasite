@@ -1,0 +1,53 @@
+{% load static %}
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="color-scheme" content="dark light" />
+  <title>Logowanie · Infiniti Vacation</title>
+  <link rel="stylesheet" href="{% static 'infiniti_vacation/css/site.css' %}">
+</head>
+
+<body class="page-login">
+  {% include "infiniti_vacation/partials/header.html" %}
+
+  <main class="auth">
+    <div class="auth-card card">
+      <div class="auth-top">
+        <h1 class="auth-title">Logowanie</h1>
+        <p class="muted">Zaloguj się, aby zarządzać rezerwacjami</p>
+      </div>
+
+      <form method="post" class="auth-form" novalidate>
+        {% csrf_token %}
+
+        <div class="auth-field">
+          <label for="id_username">Login</label>
+          <input id="id_username" name="username" type="text" autocomplete="username"
+                 required autofocus value="{{ form.username.value|default_if_none:'' }}"
+                 placeholder="Twoja nazwa użytkownika" />
+        </div>
+
+        <div class="auth-field">
+          <label for="id_password">Hasło</label>
+          <input id="id_password" name="password" type="password" autocomplete="current-password"
+                 required placeholder="••••••••••" />
+        </div>
+
+        {% if form.errors %}
+          <div class="auth-error" role="alert">Nieprawidłowy login lub hasło.</div>
+        {% endif %}
+
+        <button class="btn primary full" type="submit">Zaloguj</button>
+
+        <a class="btn ghost full" href="{% url 'infiniti_vacation:website_register' %}">
+          Nie mam konta — rejestracja
+        </a>
+
+        <a class="btn ghost full" href="{% url 'infiniti_vacation:home' %}">Wróć na stronę</a>
+      </form>
+    </div>
+  </main>
+</body>
+</html>

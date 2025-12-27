@@ -1,0 +1,60 @@
+{% load static %}
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="color-scheme" content="dark light" />
+  <title>Rejestracja · Infiniti Vacation</title>
+  <link rel="stylesheet" href="{% static 'infiniti_vacation/css/site.css' %}">
+</head>
+
+<body class="page-login">
+  {% include "infiniti_vacation/partials/header.html" %}
+
+  <main class="auth">
+    <div class="auth-card card">
+      <div class="auth-top">
+        <h1 class="auth-title">Rejestracja</h1>
+        <p class="muted">Utwórz konto gościa</p>
+      </div>
+
+      <form method="post" class="auth-form" novalidate>
+        {% csrf_token %}
+
+        <div class="auth-field">
+          <label for="id_username">Login</label>
+          <input id="id_username" name="username" type="text" autocomplete="username"
+                 required placeholder="np. maksym1981" />
+        </div>
+
+        <div class="auth-field">
+          <label for="id_password1">Hasło</label>
+          <input id="id_password1" name="password1" type="password" autocomplete="new-password"
+                 required placeholder="Min. 8 znaków" />
+        </div>
+
+        <div class="auth-field">
+          <label for="id_password2">Powtórz hasło</label>
+          <input id="id_password2" name="password2" type="password" autocomplete="new-password"
+                 required placeholder="Powtórz hasło" />
+        </div>
+
+        {% if form.errors %}
+          <div class="auth-error" role="alert">
+            Sprawdź dane: login może być zajęty, a hasła muszą się zgadzać.
+          </div>
+        {% endif %}
+
+        <button class="btn primary full" type="submit">Załóż konto</button>
+
+        <a class="btn ghost full" href="{% url 'infiniti_vacation:website_login' %}">
+          Mam konto — logowanie
+        </a>
+
+        <a class="btn ghost full" href="{% url 'infiniti_vacation:home' %}">Wróć na stronę</a>
+      </form>
+    </div>
+  </main>
+</body>
+</html>

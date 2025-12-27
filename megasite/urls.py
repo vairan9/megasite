@@ -18,9 +18,9 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path("i18n/", include("django.conf.urls.i18n")),  # <-- add this
+    path("i18n/", include("django.conf.urls.i18n")),
     path("admin/", admin.site.urls),
 
-    path("", include("portfolio.urls")),  # Twoje stare / główne
-    path("website/", include("infiniti_vacation.urls")),  # Infiniti pod /website/
+    path("", include("portfolio.urls")),
+    path("website/", include("infiniti_vacation.urls")),
 ]
