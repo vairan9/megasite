@@ -224,13 +224,31 @@ h1{
   border:1px solid var(--line);
   background: rgba(0,0,0,.25);
 }
+/* ===== Smooth sliding core ===== */
+
+.slider-viewport{
+  overflow: hidden;
+}
+
+.slider-track{
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 700ms cubic-bezier(.22,.61,.36,1);
+  will-change: transform;
+}
+
+/* each slide takes full viewport */
 .slide{
-  position:absolute;
-  inset:0;
-  opacity:0;
-  transform: scale(1.01);
-  transition: opacity .35s ease, transform .45s ease;
-  margin:0;
+  min-width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+/* remove old absolute/fade logic if present */
+.slide{
+  opacity: 1 !important;
+  pointer-events: auto !important;
 }
 .slide.is-active{
   position:relative;

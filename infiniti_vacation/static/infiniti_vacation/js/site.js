@@ -25,43 +25,97 @@
   }
 
   // Slider
+(() => {
   const slider = document.querySelector("[data-slider]");
   if (!slider) return;
 
-  const slides = Array.from(slider.querySelectorAll(".slide"));
-  const prevBtn = document.querySelector("[data-prev]");
-  const nextBtn = document.querySelector("[data-next]");
-  const dotBtns = Array.from(document.querySelectorAll("[data-dot]"));
+  const track = slider.querySelector(".slider-track");
+  const slides = Array.from(track.children);
+
+  // Prefer finding controls INSIDE this hero to avoid conflicts
+  const root = slider.closest(".hero-slider") || document;
+  const prev = root.querySelector("[data-prev]");
+  const next = root.querySelector("[data-next]");
+  const dots = root.querySelectorAll("[data-dot]");
 
   let index = 0;
-  let timer = null;
-  const AUTOPLAY_MS = 4500;
+  const total = slides.length;
 
-  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // --- autoplay settings
+  const AUTO_INTERVAL = 6000;   // time between auto slide changes
+  const MANUAL_COOLDOWN = 12000; // pause this long after user clicks
 
-  function setActive(i) {
-    index = (i + slides.length) % slides.length;
+  let autoTimer = null;
+  let resumeTimer = null;
 
-    slides.forEach((s, idx) => s.classList.toggle("is-active", idx === index));
-    dotBtns.forEach((d, idx) => {
-      d.classList.toggle("is-active", idx === index);
-      d.setAttribute("aria-selected", idx === index ? "true" : "false");
+  function update() {
+    track.style.transform = `translateX(-${index * 100}%)`;
+
+    dots.forEach((d, i) => {
+      d.classList.toggle("is-active", i === index);
+      d.setAttribute("aria-selected", i === index ? "true" : "false");
     });
   }
 
-  function next() { setActive(index + 1); }
-  function prev() { setActive(index - 1); }
-
-  function stop() {
-    if (timer) window.clearInterval(timer);
-    timer = null;
+  function goTo(i) {
+    index = (i + total) % total;
+    update();
   }
 
-  function start() {
-    if (prefersReducedMotion) return;
-    stop();
-    timer = window.setInterval(next, AUTOPLAY_MS);
+  function nextSlide() { goTo(index + 1); }
+  function prevSlide() { goTo(index - 1); }
+
+  function stopAutoplay() {
+    if (autoTimer) clearInterval(autoTimer);
+    autoTimer = null;
   }
+
+  function startAutoplay() {
+    stopAutoplay();
+    autoTimer = setInterval(nextSlide, AUTO_INTERVAL);
+  }
+
+  function pauseAfterManual() {
+    // stop autoplay now
+    stopAutoplay();
+
+    // clear any previous "resume" countdown
+    if (resumeTimer) clearTimeout(resumeTimer);
+
+    // resume after cooldown
+    resumeTimer = setTimeout(() => {
+      startAutoplay();
+    }, MANUAL_COOLDOWN);
+  }
+
+  // --- events (manual actions trigger cooldown)
+  next?.addEventListener("click", () => {
+    pauseAfterManual();
+    nextSlide();
+  });
+
+  prev?.addEventListener("click", () => {
+    pauseAfterManual();
+    prevSlide();
+  });
+
+  dots.forEach(dot => {
+    dot.addEventListener("click", () => {
+      pauseAfterManual();
+      goTo(Number(dot.dataset.dot));
+    });
+  });
+
+  // Optional: pause while hovering (doesn't affect the manual cooldown timer)
+  slider.addEventListener("mouseenter", () => stopAutoplay());
+  slider.addEventListener("mouseleave", () => {
+    // only restart if we are NOT in manual cooldown
+    if (!resumeTimer) startAutoplay();
+  });
+
+  update();
+  startAutoplay();
+})();
 
   // Buttons
   if (nextBtn) nextBtn.addEventListener("click", () => { next(); start(); });
