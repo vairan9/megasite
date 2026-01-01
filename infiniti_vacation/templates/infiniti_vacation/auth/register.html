@@ -40,11 +40,15 @@
                  required placeholder="Powtórz hasło" />
         </div>
 
-        {% if form.errors %}
-          <div class="auth-error" role="alert">
-            Sprawdź dane: login może być zajęty, a hasła muszą się zgadzać.
-          </div>
-        {% endif %}
+       {% if form.errors %}
+  <div class="auth-error" role="alert">
+    {% for field, errors in form.errors.items %}
+      {% for error in errors %}
+        <div>{{ error }}</div>
+      {% endfor %}
+    {% endfor %}
+  </div>
+{% endif %}
 
         <button class="btn primary full" type="submit">Załóż konto</button>
 

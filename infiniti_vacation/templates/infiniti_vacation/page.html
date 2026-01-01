@@ -18,56 +18,58 @@
 
   <main id="main">
     <!-- HERO + SLIDER -->
-    <section class="hero" id="top">
-      <div class="container hero-grid">
-        <div class="hero-copy">
-          <h1>Zatrzymaj się tam, gdzie powietrze jest <span class="accent">żywe</span>.</h1>
-          <p class="lead">
-            Apartamenty Infiniti Vacation — leśny spokój, ciepłe wnętrza i wszystko, czego potrzebujesz, by odpocząć.
-          </p>
+    <section class="hero-full" id="top" aria-label="Infiniti Vacation — galeria">
+  <div class="hero-slider" id="gallery">
+    <div class="slider-viewport" data-slider>
+      <figure class="slide is-active">
+        <img src="{% static 'infiniti_vacation/img/slide-1.jpg' %}" alt="Zewnętrzny widok apartamentu w lesie o wschodzie słońca">
+      </figure>
 
-          <div class="hero-actions">
-            <a class="btn primary" href="#apartments">Zobacz apartamenty</a>
-            <a class="btn ghost" href="#gallery">Zobacz galerię</a>
-          </div>
+      <figure class="slide">
+        <img src="{% static 'infiniti_vacation/img/slide-2.jpg' %}" alt="Ciepły salon z drewnianymi elementami i roślinami">
+      </figure>
 
-          <div class="hero-stats" role="list" aria-label="Najważniejsze informacje">
-            <div class="stat" role="listitem"><strong>24/7</strong><span>Samodzielne zameldowanie</span></div>
-            <div class="stat" role="listitem"><strong>1–6</strong><span>Gości</span></div>
-            <div class="stat" role="listitem"><strong>Szybkie</strong><span>Wi-Fi</span></div>
-          </div>
+      <figure class="slide">
+        <img src="{% static 'infiniti_vacation/img/slide-3.jpg' %}" alt="Sypialnia z miękkim światłem w leśnej kolorystyce">
+      </figure>
+    </div>
+
+    <!-- overlay content -->
+    <div class="hero-overlay">
+      <div class="hero-overlay-inner">
+        <p class="hero-kicker">Leśne apartamenty</p>
+        <h1>Infiniti Vacation</h1>
+        <p class="hero-lead">
+          Spokój, drewno, natura. Przyjedź odpocząć — bez stresu, z pełną wygodą.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn primary" href="#apartments">Sprawdź apartamenty</a>
+          <a class="btn ghost" href="#contact">Kontakt</a>
         </div>
 
-        <div class="slider card" id="gallery" aria-label="Galeria zdjęć apartamentów">
-          <div class="slider-viewport" data-slider>
-            <figure class="slide is-active">
-              <img src="{% static 'infiniti_vacation/img/slide-1.jpg' %}" alt="Zewnętrzny widok apartamentu w lesie o wschodzie słońca">
-              <figcaption>Poranne światło · spokojny widok na las</figcaption>
-            </figure>
-
-            <figure class="slide">
-              <img src="{% static 'infiniti_vacation/img/slide-2.jpg' %}" alt="Ciepły salon z drewnianymi elementami i roślinami">
-              <figcaption>Ciepłe wnętrze · drewno i rośliny</figcaption>
-            </figure>
-
-            <figure class="slide">
-              <img src="{% static 'infiniti_vacation/img/slide-3.jpg' %}" alt="Sypialnia z miękkim światłem w leśnej kolorystyce">
-              <figcaption>Głęboki sen · miękkie światło</figcaption>
-            </figure>
-          </div>
-
-          <div class="slider-ui">
-            <button class="icon-btn" type="button" data-prev aria-label="Poprzednie zdjęcie">←</button>
-            <div class="dots" role="tablist" aria-label="Wybierz zdjęcie">
-              <button class="dot is-active" type="button" data-dot="0" role="tab" aria-selected="true"></button>
-              <button class="dot" type="button" data-dot="1" role="tab" aria-selected="false"></button>
-              <button class="dot" type="button" data-dot="2" role="tab" aria-selected="false"></button>
-            </div>
-            <button class="icon-btn" type="button" data-next aria-label="Następne zdjęcie">→</button>
-          </div>
+        <div class="hero-stats" role="list" aria-label="Najważniejsze informacje">
+          <div class="stat" role="listitem"><strong>24/7</strong><span>Samodzielny check-in</span></div>
+          <div class="stat" role="listitem"><strong>Parking</strong><span>Na miejscu</span></div>
+          <div class="stat" role="listitem"><strong>Szybkie</strong><span>Wi-Fi</span></div>
         </div>
       </div>
-    </section>
+    </div>
+
+    <!-- slider controls -->
+    <div class="hero-controls">
+      <button class="icon-btn" type="button" data-prev aria-label="Poprzednie zdjęcie">←</button>
+
+      <div class="dots" role="tablist" aria-label="Wybierz zdjęcie">
+        <button class="dot is-active" type="button" data-dot="0" role="tab" aria-selected="true"></button>
+        <button class="dot" type="button" data-dot="1" role="tab" aria-selected="false"></button>
+        <button class="dot" type="button" data-dot="2" role="tab" aria-selected="false"></button>
+      </div>
+
+      <button class="icon-btn" type="button" data-next aria-label="Następne zdjęcie">→</button>
+    </div>
+  </div>
+</section>
 
 <!-- APARTMENTS -->
 <section class="section" id="apartments">

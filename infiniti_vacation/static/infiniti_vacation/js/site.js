@@ -103,3 +103,47 @@
   setActive(0);
   start();
 })();
+(() => {
+  const headerH = 68; // match --header-h
+
+  function easeInOutCubic(t) {
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  }
+
+  function smoothScrollTo(targetY, duration = 700) {
+    const startY = window.scrollY;
+    const delta = targetY - startY;
+    const start = performance.now();
+
+    function tick(now) {
+      const p = Math.min(1, (now - start) / duration);
+      const eased = easeInOutCubic(p);
+      window.scrollTo(0, startY + delta * eased);
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+
+    const id = a.getAttribute("href");
+    if (!id || id === "#") return;
+
+    const el = document.querySelector(id);
+    if (!el) return;
+
+    e.preventDefault();
+
+    const y = el.getBoundingClientRect().top + window.scrollY - headerH - 14;
+    smoothScrollTo(Math.max(0, y), 750);
+
+    // keeps URL hash (nice for refresh/copy link)
+    history.pushState(null, "", id);
+  });
+})();
+document.addEventListener("submit", (e) => {
+  const btn = e.target.querySelector('button[type="submit"]');
+  if (btn) btn.disabled = true;
+});
