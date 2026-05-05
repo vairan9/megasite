@@ -855,12 +855,16 @@ h1{
   border-color: rgba(248,113,113,.34);
 }
 
+.availability-calendar-section .container{
+  padding-inline: 24px;
+}
+
 .calendar-legend{
   display:flex;
   align-items:center;
-  justify-content:flex-end;
+  justify-content:flex-start;
   gap: 14px;
-  margin-bottom: 14px;
+  margin: 0 0 14px 2px;
   color: var(--muted);
   font-size: 14px;
 }
@@ -893,7 +897,8 @@ h1{
 }
 
 .room-calendar{
-  padding: 16px;
+  padding: 24px;
+  overflow: hidden;
 }
 
 .room-calendar-head{
@@ -901,7 +906,8 @@ h1{
   align-items:flex-start;
   justify-content:space-between;
   gap: 14px;
-  margin-bottom: 14px;
+  margin-bottom: 18px;
+  padding-left: 2px;
 }
 
 .room-calendar h2,
@@ -909,17 +915,23 @@ h1{
   margin: 0;
 }
 
+.room-calendar-title{
+  font-size: clamp(24px, 3vw, 32px);
+  line-height: 1.15;
+}
+
 .months-grid{
   display:grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px;
+  gap: 14px;
 }
 
 .month-card{
-  padding: 12px;
+  padding: 14px;
   border-radius: 16px;
   border: 1px solid var(--line);
   background: rgba(0,0,0,.14);
+  min-width: 0;
 }
 
 .month-card h3{
@@ -981,6 +993,10 @@ h1{
 }
 
 @media (max-width: 920px){
+  .availability-calendar-section .container{
+    padding-inline: 18px;
+  }
+
   .availability-hero-inner{
     align-items:flex-start;
     flex-direction:column;
@@ -1005,6 +1021,10 @@ h1{
 }
 
 @media (max-width: 560px){
+  .room-calendar{
+    padding: 16px;
+  }
+
   .months-grid{
     grid-template-columns: 1fr;
   }

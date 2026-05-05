@@ -7,7 +7,7 @@
   <meta name="color-scheme" content="dark light" />
   <title>Dostepne terminy &middot; Infiniti Vacation</title>
   <meta name="description" content="Kalendarz dostepnosci apartamentow Infiniti Vacation." />
-  <link rel="stylesheet" href="{% static 'infiniti_vacation/css/site.css' %}">
+  <link rel="stylesheet" href="{% static 'infiniti_vacation/css/site.css' %}?v=availability-2">
 </head>
 
 <body>
@@ -89,7 +89,7 @@
       </div>
     </section>
 
-    <section class="section">
+    <section class="section availability-calendar-section">
       <div class="container">
         <div class="calendar-legend" aria-label="Legenda">
           <span><i class="legend-dot available"></i> Wolne</span>
@@ -100,16 +100,16 @@
         <div class="room-calendars">
           {% for calendar in calendars %}
             <article class="room-calendar card">
-              <div class="room-calendar-head">
+              <header class="room-calendar-head">
                 <div>
-                  <h2>{{ calendar.apartment.name }}</h2>
+                  <h2 class="room-calendar-title">{{ calendar.apartment.name }}</h2>
                   <p class="muted">
                     Do {{ calendar.apartment.guests_max }} os. &middot;
                     {{ calendar.apartment.beds }} lozka &middot;
                     od {{ calendar.apartment.price_per_night_pln }} zl / noc
                   </p>
                 </div>
-              </div>
+              </header>
 
               <div class="months-grid">
                 {% for month in calendar.months %}
