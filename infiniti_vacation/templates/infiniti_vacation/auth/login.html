@@ -21,6 +21,7 @@
 
       <form method="post" class="auth-form" novalidate>
         {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}">
 
         <div class="auth-field">
           <label for="id_username">Login</label>

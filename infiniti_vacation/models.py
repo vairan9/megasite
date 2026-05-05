@@ -119,7 +119,7 @@ class Booking(models.Model):
         ) % {
             "apartment": self.apartment.name,
             "start": self.start_date,
-            "end": self.end_date,
+                        "end": self.end_date,
             "status": self.status,
         }
 

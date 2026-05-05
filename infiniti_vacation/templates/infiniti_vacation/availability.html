@@ -1,0 +1,157 @@
+{% load static %}
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="color-scheme" content="dark light" />
+  <title>Dostepne terminy &middot; Infiniti Vacation</title>
+  <meta name="description" content="Kalendarz dostepnosci apartamentow Infiniti Vacation." />
+  <link rel="stylesheet" href="{% static 'infiniti_vacation/css/site.css' %}">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">Przejdz do tresci</a>
+
+  {% include "infiniti_vacation/partials/header.html" %}
+
+  <main id="main" class="availability-page">
+    <section class="section availability-hero">
+      <div class="container availability-hero-inner">
+        <div>
+          <p class="hero-kicker">Kalendarz rezerwacji</p>
+          <h1>Sprawdz dostepne terminy</h1>
+          <p class="muted">Widok pokazuje zajete i wolne dni dla kazdego apartamentu w wybranym roku.</p>
+        </div>
+
+        <div class="year-switcher" aria-label="Wybierz rok">
+          {% if can_show_previous_year %}
+            <a class="icon-btn" href="{% url 'infiniti_vacation:availability' %}?year={{ previous_year }}" aria-label="Poprzedni rok">&larr;</a>
+          {% else %}
+            <span class="icon-btn is-disabled" aria-hidden="true">&larr;</span>
+          {% endif %}
+          <strong>{{ year }}</strong>
+          {% if can_show_next_year %}
+            <a class="icon-btn" href="{% url 'infiniti_vacation:availability' %}?year={{ next_year }}" aria-label="Nastepny rok">&rarr;</a>
+          {% else %}
+            <span class="icon-btn is-disabled" aria-hidden="true">&rarr;</span>
+          {% endif %}
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <form class="availability-check card" method="get">
+          <input type="hidden" name="year" value="{{ year }}">
+
+          <div class="availability-check-copy">
+            <h2>Szybkie sprawdzenie</h2>
+            <p class="muted">Wybierz przyjazd i wyjazd, a strona pokaze wolne apartamenty.</p>
+          </div>
+
+          <label class="auth-field">
+            <span>Przyjazd</span>
+            <input type="date" name="check_in" value="{{ check_in|date:'Y-m-d' }}" required>
+          </label>
+
+          <label class="auth-field">
+            <span>Wyjazd</span>
+            <input type="date" name="check_out" value="{{ check_out|date:'Y-m-d' }}" required>
+          </label>
+
+          <button class="btn primary" type="submit">Sprawdz</button>
+        </form>
+
+        {% if range_error %}
+          <div class="auth-error availability-message" role="alert">{{ range_error }}</div>
+        {% endif %}
+
+        {% if availability_results %}
+          <div class="availability-results" aria-label="Wyniki dostepnosci">
+            {% for result in availability_results %}
+              <article class="availability-result card {% if result.is_available %}is-open{% else %}is-closed{% endif %}">
+                <div>
+                  <h3>{{ result.apartment.name }}</h3>
+                  <p class="muted">
+                    {{ check_in|date:"d.m.Y" }} - {{ check_out|date:"d.m.Y" }}
+                  </p>
+                </div>
+                {% if result.is_available %}
+                  <span class="status-pill open">Dostepny</span>
+                {% else %}
+                  <span class="status-pill closed">Zajety</span>
+                {% endif %}
+              </article>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="calendar-legend" aria-label="Legenda">
+          <span><i class="legend-dot available"></i> Wolne</span>
+          <span><i class="legend-dot booked"></i> Zajete</span>
+          <span><i class="legend-dot today"></i> Dzisiaj</span>
+        </div>
+
+        <div class="room-calendars">
+          {% for calendar in calendars %}
+            <article class="room-calendar card">
+              <div class="room-calendar-head">
+                <div>
+                  <h2>{{ calendar.apartment.name }}</h2>
+                  <p class="muted">
+                    Do {{ calendar.apartment.guests_max }} os. &middot;
+                    {{ calendar.apartment.beds }} lozka &middot;
+                    od {{ calendar.apartment.price_per_night_pln }} zl / noc
+                  </p>
+                </div>
+              </div>
+
+              <div class="months-grid">
+                {% for month in calendar.months %}
+                  <section class="month-card" aria-label="{{ month.name }} {{ year }}">
+                    <h3>{{ month.name }}</h3>
+
+                    <div class="weekday-row" aria-hidden="true">
+                      <span>Pn</span>
+                      <span>Wt</span>
+                      <span>Sr</span>
+                      <span>Cz</span>
+                      <span>Pt</span>
+                      <span>So</span>
+                      <span>Nd</span>
+                    </div>
+
+                    <div class="day-grid">
+                      {% for week in month.weeks %}
+                        {% for day in week %}
+                          <span
+                            class="day-cell{% if not day.in_month %} is-muted{% elif day.is_blocked %} is-booked{% else %} is-available{% endif %}{% if day.is_today %} is-today{% endif %}"
+                            title="{{ day.date|date:'d.m.Y' }}{% if day.in_month and day.is_blocked %} - zajete{% elif day.in_month %} - wolne{% endif %}"
+                          >
+                            {{ day.number }}
+                          </span>
+                        {% endfor %}
+                      {% endfor %}
+                    </div>
+                  </section>
+                {% endfor %}
+              </div>
+            </article>
+          {% empty %}
+            <p class="muted">Brak aktywnych apartamentow do pokazania.</p>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  {% include "infiniti_vacation/partials/footer.html" %}
+
+  <script src="{% static 'infiniti_vacation/js/site.js' %}"></script>
+</body>
+</html>

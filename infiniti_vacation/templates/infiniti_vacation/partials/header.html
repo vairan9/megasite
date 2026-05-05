@@ -1,36 +1,31 @@
 <header class="site-header">
   <div class="container header-inner">
-    <a class="brand" href="http://localhost:8000/website/" aria-label="Strona główna Infiniti Vacation">
+    <a class="brand" href="{% url 'infiniti_vacation:home' %}" aria-label="Strona glowna Infiniti Vacation">
       <span class="brand-mark" aria-hidden="true"></span>
       <div class="brand-text">
         <span class="brand-name">Infiniti Vacation</span>
-        <span class="brand-tagline">Apartamenty w lesie · spokojny wypoczynek</span>
+        <span class="brand-tagline">Apartamenty w lesie &middot; spokojny wypoczynek</span>
       </div>
     </a>
 
-    <!-- NAV: ZOSTAJE PO ANGIELSKU -->
-  {% if not request.resolver_match.url_name == "website_login" %}
+    {% if not request.resolver_match.url_name == "website_login" %}
+      <nav class="nav" aria-label="Primary navigation">
+        <a class="nav-link" href="{% url 'infiniti_vacation:home' %}#apartments">Apartamenty</a>
+        <a class="nav-link" href="{% url 'infiniti_vacation:home' %}#amenities">Udogodnienia</a>
+        <a class="nav-link" href="{% url 'infiniti_vacation:home' %}#gallery">Galeria zdjec</a>
+        <a class="nav-link" href="#contact">Kontakt</a>
+        <a class="nav-cta" href="{% url 'infiniti_vacation:availability' %}">Sprawdz dostepnosc</a>
 
+        {% if user.is_authenticated %}
+          <a class="btn small ghost" href="{% url 'infiniti_vacation:website_logout' %}">Wyloguj</a>
+        {% else %}
+          <a class="btn small ghost" href="{% url 'infiniti_vacation:website_login' %}">Zaloguj</a>
+          <a class="nav-link" href="{% url 'infiniti_vacation:website_register' %}">Rejestracja</a>
+        {% endif %}
+      </nav>
+    {% endif %}
 
-
-    <nav class="nav" aria-label="Primary navigation">
-      <a class="nav-link" href="#apartments">Apartamenty</a>
-      <a class="nav-link" href="#amenities">Udogodnienia</a>
-      <a class="nav-link" href="#gallery">Galeria zdjęc</a>
-      <a class="nav-link" href="#contact">Kontakt</a>
-      <a class="nav-cta" href="#apartments">Sprawdź dostępność</a>
-{% if user.is_authenticated %}
-  <a class="btn small ghost" href="{% url 'infiniti_vacation:website_logout' %}">Wyloguj</a>
-{% else %}
-  <a class="btn small ghost" href="{% url 'infiniti_vacation:website_login' %}">Zaloguj</a>
-{% endif %}
-{% if not user.is_authenticated %}
-  <a class="nav-link" href="{% url 'infiniti_vacation:website_register' %}">Rejestracja</a>
-{% endif %}
-
-    </nav>
-{% endif %}
-    <button class="nav-toggle" type="button" aria-label="Otwórz menu" aria-expanded="false">
+    <button class="nav-toggle" type="button" aria-label="Otworz menu" aria-expanded="false">
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
@@ -38,11 +33,10 @@
   </div>
 
   <div class="mobile-nav" data-mobile-nav hidden>
-    <!-- NAV: ZOSTAJE PO ANGIELSKU -->
-    <a class="mobile-link" href="#apartments">Apartments</a>
-    <a class="mobile-link" href="#amenities">Amenities</a>
-    <a class="mobile-link" href="#gallery">Gallery</a>
-    <a class="mobile-link" href="#contact">Contact</a>
-    <a class="mobile-cta" href="#apartments">Check availability</a>
+    <a class="mobile-link" href="{% url 'infiniti_vacation:home' %}#apartments">Apartamenty</a>
+    <a class="mobile-link" href="{% url 'infiniti_vacation:home' %}#amenities">Udogodnienia</a>
+    <a class="mobile-link" href="{% url 'infiniti_vacation:home' %}#gallery">Galeria</a>
+    <a class="mobile-link" href="#contact">Kontakt</a>
+    <a class="mobile-cta" href="{% url 'infiniti_vacation:availability' %}">Sprawdz dostepnosc</a>
   </div>
 </header>

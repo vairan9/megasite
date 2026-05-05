@@ -117,46 +117,6 @@
   startAutoplay();
 })();
 
-  // Buttons
-  if (nextBtn) nextBtn.addEventListener("click", () => { next(); start(); });
-  if (prevBtn) prevBtn.addEventListener("click", () => { prev(); start(); });
-
-  dotBtns.forEach(btn => {
-    btn.addEventListener("click", () => {
-      const i = Number(btn.getAttribute("data-dot"));
-      if (Number.isFinite(i)) setActive(i);
-      start();
-    });
-  });
-
-  // Pause on hover/focus (nice feel)
-  const sliderCard = document.querySelector(".slider");
-  if (sliderCard) {
-    sliderCard.addEventListener("mouseenter", stop);
-    sliderCard.addEventListener("mouseleave", start);
-    sliderCard.addEventListener("focusin", stop);
-    sliderCard.addEventListener("focusout", start);
-  }
-
-  // Touch swipe (lightweight)
-  let startX = 0;
-  slider.addEventListener("touchstart", (e) => {
-    startX = e.touches?.[0]?.clientX ?? 0;
-  }, { passive: true });
-
-  slider.addEventListener("touchend", (e) => {
-    const endX = e.changedTouches?.[0]?.clientX ?? 0;
-    const dx = endX - startX;
-    if (Math.abs(dx) > 40) {
-      dx < 0 ? next() : prev();
-      start();
-    }
-  });
-
-  // Init
-  setActive(0);
-  start();
-})();
 (() => {
   const headerH = 68; // match --header-h
 
@@ -201,3 +161,4 @@ document.addEventListener("submit", (e) => {
   const btn = e.target.querySelector('button[type="submit"]');
   if (btn) btn.disabled = true;
 });
+})();
