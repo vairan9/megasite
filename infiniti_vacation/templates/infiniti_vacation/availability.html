@@ -7,7 +7,7 @@
   <meta name="color-scheme" content="dark light" />
   <title>Dostepne terminy &middot; Infiniti Vacation</title>
   <meta name="description" content="Kalendarz dostepnosci apartamentow Infiniti Vacation." />
-  <link rel="stylesheet" href="{% static 'infiniti_vacation/css/site.css' %}?v=availability-2">
+  <link rel="stylesheet" href="{% static 'infiniti_vacation/css/site.css' %}?v=availability-4">
 </head>
 
 <body>
@@ -21,18 +21,18 @@
         <div>
           <p class="hero-kicker">Kalendarz rezerwacji</p>
           <h1>Sprawdz dostepne terminy</h1>
-          <p class="muted">Widok pokazuje zajete i wolne dni dla kazdego apartamentu w wybranym roku.</p>
+          <p class="muted">Najpierw wybierz apartament, potem sprawdz jego wolne i zajete terminy.</p>
         </div>
 
         <div class="year-switcher" aria-label="Wybierz rok">
           {% if can_show_previous_year %}
-            <a class="icon-btn" href="{% url 'infiniti_vacation:availability' %}?year={{ previous_year }}" aria-label="Poprzedni rok">&larr;</a>
+            <a class="icon-btn" href="{% url 'infiniti_vacation:availability' %}?year={{ previous_year }}{{ selected_room_query }}" aria-label="Poprzedni rok">&larr;</a>
           {% else %}
             <span class="icon-btn is-disabled" aria-hidden="true">&larr;</span>
           {% endif %}
           <strong>{{ year }}</strong>
           {% if can_show_next_year %}
-            <a class="icon-btn" href="{% url 'infiniti_vacation:availability' %}?year={{ next_year }}" aria-label="Nastepny rok">&rarr;</a>
+            <a class="icon-btn" href="{% url 'infiniti_vacation:availability' %}?year={{ next_year }}{{ selected_room_query }}" aria-label="Nastepny rok">&rarr;</a>
           {% else %}
             <span class="icon-btn is-disabled" aria-hidden="true">&rarr;</span>
           {% endif %}
@@ -42,12 +42,74 @@
 
     <section class="section">
       <div class="container">
+        <div class="room-picker card" aria-label="Wybierz apartament">
+          <div class="room-picker-copy">
+            <h2>Wybierz apartament</h2>
+            <p class="muted">
+              {% if view_all_rooms %}
+                Pokazujesz wszystkie pokoje razem.
+              {% elif selected_apartment %}
+                Kalendarz ponizej pokazuje tylko wybrany pokoj.
+              {% else %}
+                Wybierz pokoj, zeby zobaczyc jego kalendarz i sprawdzic termin.
+              {% endif %}
+            </p>
+          </div>
+
+          <div class="room-picker-list">
+            <a
+              class="room-picker-item room-picker-all{% if view_all_rooms %} is-selected{% endif %}"
+              href="{% url 'infiniti_vacation:availability' %}?year={{ year }}&view=all"
+              {% if view_all_rooms %}aria-current="true"{% endif %}
+            >
+              <strong>Wszystkie pokoje razem</strong>
+              <span>Porownaj komplet kalendarzy na jednej stronie</span>
+            </a>
+
+            {% for apartment in apartments %}
+              <a
+                class="room-picker-item{% if selected_apartment and apartment.pk == selected_apartment.pk %} is-selected{% endif %}"
+                href="{% url 'infiniti_vacation:availability' %}?year={{ year }}&room={{ apartment.slug }}"
+                {% if selected_apartment and apartment.pk == selected_apartment.pk %}aria-current="true"{% endif %}
+              >
+                <strong>{{ apartment.name }}</strong>
+                <span>Do {{ apartment.guests_max }} os. &middot; od {{ apartment.price_per_night_pln }} zl</span>
+              </a>
+            {% empty %}
+              <p class="muted">Brak aktywnych apartamentow do wyboru.</p>
+            {% endfor %}
+          </div>
+        </div>
+
+        {% if apartments and not selected_apartment and not view_all_rooms %}
+          <div class="room-empty-state card">
+            <h2>Wybierz pokoj powyzej</h2>
+            <p class="muted">Po wyborze zobaczysz roczny kalendarz dostepnosci bez przewijania przez wszystkie apartamenty.</p>
+          </div>
+        {% endif %}
+      </div>
+    </section>
+
+    {% if selected_apartment or view_all_rooms %}
+    <section class="section">
+      <div class="container">
         <form class="availability-check card" method="get">
           <input type="hidden" name="year" value="{{ year }}">
+          {% if view_all_rooms %}
+            <input type="hidden" name="view" value="all">
+          {% else %}
+            <input type="hidden" name="room" value="{{ selected_apartment.slug }}">
+          {% endif %}
 
           <div class="availability-check-copy">
             <h2>Szybkie sprawdzenie</h2>
-            <p class="muted">Wybierz przyjazd i wyjazd, a strona pokaze wolne apartamenty.</p>
+            <p class="muted">
+              {% if view_all_rooms %}
+                Sprawdz termin we wszystkich pokojach.
+              {% else %}
+                Sprawdz wybrany apartament: {{ selected_apartment.name }}.
+              {% endif %}
+            </p>
           </div>
 
           <label class="auth-field">
@@ -65,6 +127,24 @@
 
         {% if range_error %}
           <div class="auth-error availability-message" role="alert">{{ range_error }}</div>
+        {% endif %}
+
+        {% if availability_result %}
+          <div class="availability-results" aria-label="Wyniki dostepnosci">
+            <article class="availability-result card {% if availability_result.is_available %}is-open{% else %}is-closed{% endif %}">
+              <div>
+                <h3>{{ availability_result.apartment.name }}</h3>
+                <p class="muted">
+                  {{ check_in|date:"d.m.Y" }} - {{ check_out|date:"d.m.Y" }}
+                </p>
+              </div>
+              {% if availability_result.is_available %}
+                <span class="status-pill open">Dostepny</span>
+              {% else %}
+                <span class="status-pill closed">Zajety</span>
+              {% endif %}
+            </article>
+          </div>
         {% endif %}
 
         {% if availability_results %}
@@ -142,12 +222,11 @@
                 {% endfor %}
               </div>
             </article>
-          {% empty %}
-            <p class="muted">Brak aktywnych apartamentow do pokazania.</p>
           {% endfor %}
         </div>
       </div>
     </section>
+    {% endif %}
   </main>
 
   {% include "infiniti_vacation/partials/footer.html" %}

@@ -782,6 +782,75 @@ h1{
   justify-content:center;
 }
 
+.room-picker{
+  display:grid;
+  grid-template-columns: minmax(220px, .7fr) minmax(0, 1.3fr);
+  gap: 16px;
+  align-items:start;
+  padding: 18px;
+}
+
+.room-picker h2,
+.room-picker p{
+  margin: 0;
+}
+
+.room-picker h2{
+  margin-bottom: 4px;
+}
+
+.room-picker-list{
+  display:grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.room-picker-item{
+  display:flex;
+  flex-direction:column;
+  gap: 3px;
+  min-width: 0;
+  padding: 13px 14px;
+  border-radius: 14px;
+  text-decoration:none;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.04);
+}
+
+.room-picker-item:hover{
+  background: rgba(255,255,255,.07);
+}
+
+.room-picker-item.is-selected{
+  border-color: rgba(105,240,174,.42);
+  background: rgba(105,240,174,.13);
+}
+
+.room-picker-all{
+  background: linear-gradient(135deg, rgba(105,240,174,.12), rgba(125,211,252,.08));
+  border-color: rgba(105,240,174,.24);
+}
+
+.room-picker-item span{
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.room-empty-state{
+  margin-top: 14px;
+  padding: 18px;
+  box-shadow:none;
+}
+
+.room-empty-state h2,
+.room-empty-state p{
+  margin: 0;
+}
+
+.room-empty-state h2{
+  margin-bottom: 4px;
+}
+
 .availability-check{
   display:grid;
   grid-template-columns: minmax(220px, 1fr) minmax(160px, .7fr) minmax(160px, .7fr) auto;
@@ -813,7 +882,7 @@ h1{
 
 .availability-results{
   display:grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
   margin-top: 14px;
 }
@@ -1006,7 +1075,12 @@ h1{
     grid-template-columns: 1fr;
   }
 
-  .availability-results{
+  .room-picker{
+    grid-template-columns: 1fr;
+  }
+
+  .availability-results,
+  .room-picker-list{
     grid-template-columns: 1fr;
   }
 

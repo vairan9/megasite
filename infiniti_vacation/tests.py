@@ -44,7 +44,7 @@ class AvailabilityViewTests(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertIn(reverse("infiniti_vacation:website_login"), response["Location"])
 
-    def test_availability_page_lists_rooms_for_logged_in_user(self):
+    def test_availability_page_lists_rooms_before_selection(self):
         self.client.force_login(self.user)
 
         response = self.client.get(
@@ -56,20 +56,84 @@ class AvailabilityViewTests(TestCase):
         self.assertContains(response, "Room A")
         self.assertContains(response, "Room B")
         self.assertContains(response, str(self.year))
+        self.assertIsNone(response.context["selected_apartment"])
+        self.assertIsNone(response.context["calendar"])
+        self.assertContains(response, "Wybierz pokoj powyzej")
 
-    def test_date_range_checker_marks_blocked_and_open_rooms(self):
+    def test_availability_page_selects_room_from_query(self):
+        self.client.force_login(self.user)
+
+        response = self.client.get(
+            reverse("infiniti_vacation:availability"),
+            {"year": self.year, "room": "room-b"},
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context["selected_apartment"], self.apartment_b)
+        self.assertEqual(response.context["calendar"]["apartment"], self.apartment_b)
+
+    def test_availability_page_can_show_all_rooms_together(self):
+        self.client.force_login(self.user)
+
+        response = self.client.get(
+            reverse("infiniti_vacation:availability"),
+            {"year": self.year, "view": "all"},
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context["view_all_rooms"])
+        self.assertIsNone(response.context["selected_apartment"])
+        self.assertEqual(len(response.context["calendars"]), 2)
+        self.assertContains(response, "Wszystkie pokoje razem")
+
+    def test_date_range_checker_marks_selected_room_blocked(self):
         self.client.force_login(self.user)
 
         response = self.client.get(
             reverse("infiniti_vacation:availability"),
             {
                 "year": self.year,
+                "room": "room-a",
                 "check_in": f"{self.year}-06-11",
                 "check_out": f"{self.year}-06-12",
             },
         )
 
         self.assertEqual(response.status_code, 200)
+        result = response.context["availability_result"]
+        self.assertEqual(result["apartment"], self.apartment_a)
+        self.assertFalse(result["is_available"])
+
+    def test_date_range_checker_marks_selected_room_open(self):
+        self.client.force_login(self.user)
+
+        response = self.client.get(
+            reverse("infiniti_vacation:availability"),
+            {
+                "year": self.year,
+                "room": "room-b",
+                "check_in": f"{self.year}-06-11",
+                "check_out": f"{self.year}-06-12",
+            },
+        )
+
+        result = response.context["availability_result"]
+        self.assertEqual(result["apartment"], self.apartment_b)
+        self.assertTrue(result["is_available"])
+
+    def test_date_range_checker_marks_all_rooms_when_all_view_is_selected(self):
+        self.client.force_login(self.user)
+
+        response = self.client.get(
+            reverse("infiniti_vacation:availability"),
+            {
+                "year": self.year,
+                "view": "all",
+                "check_in": f"{self.year}-06-11",
+                "check_out": f"{self.year}-06-12",
+            },
+        )
+
         results = {
             item["apartment"].slug: item["is_available"]
             for item in response.context["availability_results"]
@@ -90,13 +154,12 @@ class AvailabilityViewTests(TestCase):
             reverse("infiniti_vacation:availability"),
             {
                 "year": self.year,
+                "room": "room-b",
                 "check_in": f"{self.year}-06-11",
                 "check_out": f"{self.year}-06-12",
             },
         )
 
-        results = {
-            item["apartment"].slug: item["is_available"]
-            for item in response.context["availability_results"]
-        }
-        self.assertTrue(results["room-b"])
+        result = response.context["availability_result"]
+        self.assertEqual(result["apartment"], self.apartment_b)
+        self.assertTrue(result["is_available"])

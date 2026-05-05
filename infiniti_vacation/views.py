@@ -99,10 +99,26 @@ def availability(request):
     year_end = date(year + 1, 1, 1)
 
     apartments = list(Apartment.objects.filter(is_active=True).order_by("name"))
+    selected_slug = request.GET.get("room")
+    view_all_rooms = request.GET.get("view") == "all"
+    selected_apartment = next(
+        (apartment for apartment in apartments if apartment.slug == selected_slug),
+        None,
+    )
+    if view_all_rooms:
+        selected_apartment = None
+
+    selected_room_query = ""
+    if view_all_rooms:
+        selected_room_query = "&view=all"
+    elif selected_apartment:
+        selected_room_query = f"&room={selected_apartment.slug}"
+
+    booking_filter = {"apartment__in": apartments} if view_all_rooms else {"apartment": selected_apartment}
     bookings = (
         Booking.objects.select_related("apartment")
         .filter(
-            apartment__in=apartments,
+            **booking_filter,
             start_date__lt=year_end,
             end_date__gt=year_start,
         )
@@ -110,13 +126,10 @@ def availability(request):
         .order_by("start_date")
     )
 
-    bookings_by_apartment = {apartment.pk: [] for apartment in apartments}
-    for booking in bookings:
-        bookings_by_apartment.setdefault(booking.apartment_id, []).append(booking)
-
     check_in = _parse_date(request.GET.get("check_in"))
     check_out = _parse_date(request.GET.get("check_out"))
     range_error = ""
+    availability_result = None
     availability_results = []
 
     if request.GET.get("check_in") or request.GET.get("check_out"):
@@ -124,8 +137,8 @@ def availability(request):
             range_error = "Podaj poprawne daty przyjazdu i wyjazdu."
         elif check_out <= check_in:
             range_error = "Data wyjazdu musi byc pozniejsza niz data przyjazdu."
-        else:
-            range_bookings = (
+        elif view_all_rooms:
+            blocked_ids = set(
                 Booking.objects.filter(
                     apartment__in=apartments,
                     start_date__lt=check_out,
@@ -134,7 +147,6 @@ def availability(request):
                 .exclude(status=Booking.Status.CANCELLED)
                 .values_list("apartment_id", flat=True)
             )
-            blocked_ids = set(range_bookings)
             availability_results = [
                 {
                     "apartment": apartment,
@@ -142,11 +154,39 @@ def availability(request):
                 }
                 for apartment in apartments
             ]
+        elif selected_apartment:
+            is_blocked = (
+                Booking.objects.filter(
+                    apartment=selected_apartment,
+                    start_date__lt=check_out,
+                    end_date__gt=check_in,
+                )
+                .exclude(status=Booking.Status.CANCELLED)
+                .exists()
+            )
+            availability_result = {
+                "apartment": selected_apartment,
+                "is_available": not is_blocked,
+            }
 
-    calendars = [
-        _calendar_for_apartment(apartment, bookings_by_apartment.get(apartment.pk, []), year)
-        for apartment in apartments
-    ]
+    selected_calendar = None
+    calendars = []
+    if selected_apartment:
+        selected_calendar = _calendar_for_apartment(selected_apartment, list(bookings), year)
+        calendars = [selected_calendar]
+    elif view_all_rooms:
+        bookings_by_apartment = {apartment.pk: [] for apartment in apartments}
+        for booking in bookings:
+            bookings_by_apartment.setdefault(booking.apartment_id, []).append(booking)
+
+        calendars = [
+            _calendar_for_apartment(
+                apartment,
+                bookings_by_apartment.get(apartment.pk, []),
+                year,
+            )
+            for apartment in apartments
+        ]
 
     return render(
         request,
@@ -158,10 +198,16 @@ def availability(request):
             "next_year": year + 1,
             "can_show_previous_year": year > current_year - 1,
             "can_show_next_year": year < current_year + 2,
+            "selected_room_query": selected_room_query,
+            "view_all_rooms": view_all_rooms,
+            "apartments": apartments,
+            "selected_apartment": selected_apartment,
+            "calendar": selected_calendar,
             "calendars": calendars,
             "check_in": check_in,
             "check_out": check_out,
             "range_error": range_error,
+            "availability_result": availability_result,
             "availability_results": availability_results,
         },
     )
