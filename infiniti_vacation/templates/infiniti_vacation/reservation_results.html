@@ -1,0 +1,114 @@
+{% load static %}
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="color-scheme" content="dark light" />
+  <title>Wybierz apartament &middot; Infiniti Vacation</title>
+  <link rel="stylesheet" href="{% static 'infiniti_vacation/css/site.css' %}">
+  <link rel="stylesheet" href="{% static 'infiniti_vacation/css/booking-search.css' %}?v=1">
+  <link rel="stylesheet" href="{% static 'infiniti_vacation/css/reservation.css' %}?v=1">
+</head>
+<body>
+  {% include "infiniti_vacation/partials/header.html" %}
+
+  <main class="reservation-page" id="main">
+    <section class="reservation-heading section">
+      <div class="container">
+        <p class="hero-kicker">Rezerwacja</p>
+        <h1>Wybierz pobyt</h1>
+        {% if search.check_in and search.check_out %}
+          <p class="muted">
+            {{ search.check_in|date:"d.m.Y" }} - {{ search.check_out|date:"d.m.Y" }}
+            &middot; {{ nights }} {% if nights == 1 %}noc{% else %}nocy{% endif %}
+            &middot; {{ search.guests }} gosci
+          </p>
+        {% endif %}
+      </div>
+    </section>
+
+    {% include "infiniti_vacation/partials/booking_search.html" %}
+
+    <section class="section reservation-results-section">
+      <div class="container">
+        {% if search.errors %}
+          <div class="reservation-alert" role="alert">
+            {% for error in search.errors %}<p>{{ error }}</p>{% endfor %}
+          </div>
+        {% elif packages %}
+          <div class="reservation-results-head">
+            <div>
+              <h2>Dostepne opcje</h2>
+              <p class="muted">Cena obejmuje caly pobyt dla wybranego zestawu apartamentow.</p>
+            </div>
+            <span>{{ packages|length }} {% if packages|length == 1 %}opcja{% else %}opcje{% endif %}</span>
+          </div>
+
+          <div class="reservation-packages">
+            {% for package in packages %}
+              <article class="reservation-package card">
+                <header class="reservation-package-head">
+                  <div>
+                    <span class="reservation-option-number">Opcja {{ forloop.counter }}</span>
+                    <h2>
+                      {% if package.apartments|length == 1 %}
+                        {{ package.apartments.0.apartment.name }}
+                      {% else %}
+                        {{ package.apartments|length }} apartamenty
+                      {% endif %}
+                    </h2>
+                    <p class="muted">Do {{ package.capacity }} gosci</p>
+                  </div>
+                  <div class="reservation-package-price">
+                    <strong>{{ package.total_price }} z&#322;</strong>
+                    <span>za {{ nights }} {% if nights == 1 %}noc{% else %}nocy{% endif %}</span>
+                  </div>
+                </header>
+
+                <div class="reservation-apartment-list">
+                  {% for item in package.apartments %}
+                    <div class="reservation-apartment-row">
+                      {% if item.apartment.cover_image_path %}
+                        <img src="{% static item.apartment.cover_image_path %}" alt="{{ item.apartment.name }}">
+                      {% else %}
+                        <span class="reservation-apartment-placeholder" aria-hidden="true">IV</span>
+                      {% endif %}
+                      <div>
+                        <strong>{{ item.apartment.name }}</strong>
+                        <span>
+                          {{ item.apartment.guests_max }} os. &middot;
+                          {{ item.apartment.beds }} lozka
+                          {% if item.apartment.has_kitchen %}&middot; kuchnia{% endif %}
+                        </span>
+                      </div>
+                      <strong>{{ item.stay_price }} z&#322;</strong>
+                    </div>
+                  {% endfor %}
+                </div>
+
+                <footer class="reservation-package-footer">
+                  <span>Bezkosztowe wyslanie prosby o rezerwacje</span>
+                  <a
+                    class="btn primary"
+                    href="{% url 'infiniti_vacation:reservation_confirm' %}?check_in={{ booking_check_in }}&check_out={{ booking_check_out }}&guests={{ booking_guests }}&rooms={{ booking_rooms }}&apartments={{ package.slug_query }}"
+                  >Wybierz</a>
+                </footer>
+              </article>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="reservation-empty">
+            <h2>Brak wolnego zestawu</h2>
+            <p class="muted">Zmien termin, liczbe gosci albo liczbe apartamentow i sprawdz ponownie.</p>
+          </div>
+        {% endif %}
+      </div>
+    </section>
+  </main>
+
+  {% include "infiniti_vacation/partials/footer.html" %}
+  <script src="{% static 'infiniti_vacation/js/site.js' %}"></script>
+  <script src="{% static 'infiniti_vacation/js/booking-search.js' %}"></script>
+</body>
+</html>

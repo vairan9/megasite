@@ -9,9 +9,10 @@
   <meta name="description" content="Infiniti Vacation — leśne apartamenty. Spokojny wypoczynek, ciepłe wnętrza, prosty design." />
 
   <link rel="stylesheet" href="{% static 'infiniti_vacation/css/site.css' %}">
+  <link rel="stylesheet" href="{% static 'infiniti_vacation/css/booking-search.css' %}?v=1">
 </head>
 
-<body>
+<body class="home-with-booking">
   <a class="skip-link" href="#main">Przejdź do treści</a>
 
   {% include "infiniti_vacation/partials/header.html" %}
@@ -72,6 +73,8 @@
     </div>
   </div>
 </section>
+
+{% include "infiniti_vacation/partials/booking_search.html" %}
 
 <!-- APARTMENTS -->
 <section class="section" id="apartments">
@@ -158,5 +161,6 @@
   {% include "infiniti_vacation/partials/footer.html" %}
 
   <script src="{% static 'infiniti_vacation/js/site.js' %}"></script>
+  <script src="{% static 'infiniti_vacation/js/booking-search.js' %}"></script>
 </body>
 </html>

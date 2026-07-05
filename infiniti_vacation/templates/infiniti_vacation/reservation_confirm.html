@@ -1,0 +1,114 @@
+{% load static %}
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="color-scheme" content="dark light" />
+  <title>Potwierdz pobyt &middot; Infiniti Vacation</title>
+  <link rel="stylesheet" href="{% static 'infiniti_vacation/css/site.css' %}">
+  <link rel="stylesheet" href="{% static 'infiniti_vacation/css/reservation.css' %}?v=1">
+</head>
+<body>
+  {% include "infiniti_vacation/partials/header.html" %}
+
+  <main class="reservation-page" id="main">
+    {% if success %}
+      <section class="reservation-complete section">
+        <div class="container">
+          <div class="reservation-complete-panel card">
+            <span class="reservation-complete-mark" aria-hidden="true">&#10003;</span>
+            <p class="hero-kicker">Prosba wyslana</p>
+            <h1>Dziekujemy za rezerwacje</h1>
+            <p class="muted">Termin zostal wstepnie zablokowany. Skontaktujemy sie, aby potwierdzic pobyt.</p>
+            <a class="btn primary" href="{% url 'infiniti_vacation:home' %}">Wroc na strone glowna</a>
+          </div>
+        </div>
+      </section>
+    {% else %}
+      <section class="reservation-heading section">
+        <div class="container">
+          <p class="hero-kicker">Ostatni krok</p>
+          <h1>Potwierdz pobyt</h1>
+          <p class="muted">Sprawdz szczegoly i podaj dane kontaktowe.</p>
+        </div>
+      </section>
+
+      <section class="section reservation-confirm-section">
+        <div class="container reservation-confirm-grid">
+          <div class="reservation-summary card">
+            <header>
+              <h2>Twoj pobyt</h2>
+              {% if search.check_in and search.check_out %}
+                <p class="muted">
+                  {{ search.check_in|date:"d.m.Y" }} - {{ search.check_out|date:"d.m.Y" }}
+                  &middot; {{ nights }} {% if nights == 1 %}noc{% else %}nocy{% endif %}
+                </p>
+              {% endif %}
+            </header>
+
+            {% if search.errors or package_error %}
+              <div class="reservation-alert" role="alert">
+                {% for error in search.errors %}<p>{{ error }}</p>{% endfor %}
+                {% if package_error %}<p>{{ package_error }}</p>{% endif %}
+              </div>
+            {% else %}
+              <div class="reservation-summary-rooms">
+                {% for item in apartments %}
+                  <div>
+                    <span>{{ item.apartment.name }}</span>
+                    <strong>{{ item.stay_price }} z&#322;</strong>
+                  </div>
+                {% endfor %}
+              </div>
+              <div class="reservation-summary-total">
+                <span>Lacznie</span>
+                <strong>{{ total_price }} z&#322;</strong>
+              </div>
+              <p class="muted">{{ search.guests }} gosci &middot; {{ search.rooms }} {% if search.rooms == 1 %}apartament{% else %}apartamenty{% endif %}</p>
+            {% endif %}
+          </div>
+
+          {% if not search.errors and not package_error %}
+            <form class="reservation-form card" method="post" novalidate>
+              {% csrf_token %}
+              <input type="hidden" name="check_in" value="{{ search.check_in|date:'Y-m-d' }}">
+              <input type="hidden" name="check_out" value="{{ search.check_out|date:'Y-m-d' }}">
+              <input type="hidden" name="guests" value="{{ search.guests }}">
+              <input type="hidden" name="rooms" value="{{ search.rooms }}">
+              <input type="hidden" name="apartments" value="{{ apartment_slugs }}">
+
+              <div>
+                <h2>Dane kontaktowe</h2>
+                <p class="muted">Na te dane wyslemy potwierdzenie.</p>
+              </div>
+
+              {% if form.non_field_errors %}
+                <div class="reservation-alert" role="alert">{{ form.non_field_errors }}</div>
+              {% endif %}
+
+              {% for field in form %}
+                <label class="reservation-field">
+                  <span>{{ field.label }}</span>
+                  {{ field }}
+                  {% if field.errors %}<small>{{ field.errors|striptags }}</small>{% endif %}
+                </label>
+              {% endfor %}
+
+              <button class="btn primary full" type="submit">Wyslij prosbe o rezerwacje</button>
+              <p class="reservation-form-note">Rezerwacja otrzyma status wstepny do czasu potwierdzenia przez obiekt.</p>
+            </form>
+          {% else %}
+            <div class="reservation-return">
+              <a class="btn primary" href="{% url 'infiniti_vacation:reservation_search' %}?check_in={{ search.check_in|date:'Y-m-d' }}&check_out={{ search.check_out|date:'Y-m-d' }}&guests={{ search.guests }}&rooms={{ search.rooms }}">Wroc do wynikow</a>
+            </div>
+          {% endif %}
+        </div>
+      </section>
+    {% endif %}
+  </main>
+
+  {% include "infiniti_vacation/partials/footer.html" %}
+  <script src="{% static 'infiniti_vacation/js/site.js' %}"></script>
+</body>
+</html>

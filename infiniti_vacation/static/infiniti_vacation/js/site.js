@@ -158,6 +158,7 @@
   });
 })();
 document.addEventListener("submit", (e) => {
+  if (e.defaultPrevented) return;
   const btn = e.target.querySelector('button[type="submit"]');
   if (btn) btn.disabled = true;
 });

@@ -56,6 +56,66 @@ class Apartment(models.Model):
         return self.name
 
 
+class ApartmentPrice(models.Model):
+    """
+    Date-range price override for one apartment.
+    Both start_date and end_date are inclusive. The apartment base price is the fallback.
+    """
+
+    apartment = models.ForeignKey(
+        Apartment,
+        on_delete=models.CASCADE,
+        related_name="price_ranges",
+        verbose_name=_("Apartment"),
+    )
+    start_date = models.DateField(_("Start date"))
+    end_date = models.DateField(
+        _("End date"),
+        help_text=_("Last date when this price applies (inclusive)."),
+    )
+    price_per_night_pln = models.DecimalField(
+        _("Price per night (PLN)"), max_digits=8, decimal_places=2
+    )
+    note = models.CharField(_("Note"), max_length=120, blank=True)
+    created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
+    updated_at = models.DateTimeField(_("Updated at"), auto_now=True)
+
+    class Meta:
+        verbose_name = _("Apartment price")
+        verbose_name_plural = _("Apartment prices")
+        ordering = ["apartment", "start_date"]
+        indexes = [
+            models.Index(
+                fields=["apartment", "start_date", "end_date"],
+                name="iv_price_range_idx",
+            ),
+        ]
+
+    def __str__(self) -> str:
+        return _("%(apartment)s: %(start)s - %(end)s, %(price)s PLN") % {
+            "apartment": self.apartment.name,
+            "start": self.start_date,
+            "end": self.end_date,
+            "price": self.price_per_night_pln,
+        }
+
+    def clean(self):
+        if self.end_date <= self.start_date:
+            raise ValidationError(_("End date must be after start date."))
+
+        qs = ApartmentPrice.objects.filter(apartment=self.apartment).exclude(pk=self.pk)
+        overlap = qs.filter(
+            start_date__lte=self.end_date,
+            end_date__gte=self.start_date,
+        )
+        if overlap.exists():
+            raise ValidationError(_("This price range overlaps with an existing price."))
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        return super().save(*args, **kwargs)
+
+
 class Booking(models.Model):
     """
     A booking or a manual block (maintenance, owner stay, etc.).

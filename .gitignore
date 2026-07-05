@@ -6,3 +6,5 @@ locale/pl/LC_MESSAGES/django.po
 infiniti_vacation/__pycache__/models.cpython-312.pyc
 infiniti_vacation/__pycache__/models.cpython-312.pyc
 *.sqlite3
+__pycache__/
+*.py[cod]

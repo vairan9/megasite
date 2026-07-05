@@ -1,0 +1,367 @@
+.reservation-page{
+  min-height:calc(100vh - 68px);
+}
+
+.reservation-heading{
+  padding-top:42px;
+  padding-bottom:12px;
+}
+
+.reservation-heading h1,
+.reservation-heading p{
+  margin:0;
+}
+
+.reservation-heading h1{
+  margin-bottom:8px;
+}
+
+.reservation-page .booking-search-section{
+  margin-top:0;
+  padding:12px 0 24px;
+}
+
+.reservation-results-section{
+  padding-top:12px;
+  padding-bottom:44px;
+}
+
+.reservation-results-head{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:16px;
+}
+
+.reservation-results-head h2,
+.reservation-results-head p{
+  margin:0;
+}
+
+.reservation-results-head > span{
+  color:var(--muted);
+}
+
+.reservation-packages{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+
+.reservation-package{
+  padding:0;
+  overflow:hidden;
+  border-radius:8px;
+}
+
+.reservation-package-head,
+.reservation-package-footer{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding:18px;
+}
+
+.reservation-package-head{
+  border-bottom:1px solid var(--line);
+}
+
+.reservation-option-number{
+  display:block;
+  color:var(--accent);
+  font-size:12px;
+  font-weight:800;
+  text-transform:uppercase;
+}
+
+.reservation-package-head h2,
+.reservation-package-head p{
+  margin:0;
+}
+
+.reservation-package-price{
+  flex:0 0 auto;
+  text-align:right;
+}
+
+.reservation-package-price strong,
+.reservation-package-price span{
+  display:block;
+}
+
+.reservation-package-price strong{
+  font-size:24px;
+}
+
+.reservation-package-price span{
+  color:var(--muted);
+  font-size:12px;
+}
+
+.reservation-apartment-list{
+  padding:0 18px;
+}
+
+.reservation-apartment-row{
+  display:grid;
+  grid-template-columns:96px minmax(0, 1fr) auto;
+  align-items:center;
+  gap:14px;
+  padding:14px 0;
+}
+
+.reservation-apartment-row + .reservation-apartment-row{
+  border-top:1px solid var(--line);
+}
+
+.reservation-apartment-row img{
+  width:96px;
+  aspect-ratio:4 / 3;
+  object-fit:cover;
+  border-radius:6px;
+}
+
+.reservation-apartment-placeholder{
+  width:96px;
+  aspect-ratio:4 / 3;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid var(--line);
+  border-radius:6px;
+  background:rgba(105,240,174,.08);
+  color:var(--accent);
+  font-weight:800;
+}
+
+.reservation-apartment-row div strong,
+.reservation-apartment-row div span{
+  display:block;
+}
+
+.reservation-apartment-row div span{
+  color:var(--muted);
+  font-size:13px;
+}
+
+.reservation-package-footer{
+  border-top:1px solid var(--line);
+  background:rgba(255,255,255,.025);
+}
+
+.reservation-package-footer > span{
+  color:var(--muted);
+  font-size:13px;
+}
+
+.reservation-package-footer .btn{
+  min-width:112px;
+  border-radius:8px;
+}
+
+.reservation-alert,
+.reservation-empty{
+  padding:18px;
+  border-radius:8px;
+}
+
+.reservation-alert{
+  border:1px solid rgba(248,113,113,.35);
+  background:rgba(248,113,113,.1);
+}
+
+.reservation-alert p{
+  margin:0;
+}
+
+.reservation-empty{
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.035);
+}
+
+.reservation-empty h2,
+.reservation-empty p{
+  margin:0;
+}
+
+.reservation-confirm-section{
+  padding-top:8px;
+  padding-bottom:44px;
+}
+
+.reservation-confirm-grid{
+  display:grid;
+  grid-template-columns:minmax(0, .85fr) minmax(320px, 1.15fr);
+  gap:18px;
+  align-items:start;
+}
+
+.reservation-summary,
+.reservation-form{
+  padding:18px;
+  border-radius:8px;
+}
+
+.reservation-summary h2,
+.reservation-summary p,
+.reservation-form h2,
+.reservation-form p{
+  margin:0;
+}
+
+.reservation-summary-rooms{
+  margin-top:16px;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
+
+.reservation-summary-rooms div,
+.reservation-summary-total{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:11px 0;
+}
+
+.reservation-summary-rooms div + div{
+  border-top:1px solid var(--line);
+}
+
+.reservation-summary-total strong{
+  color:var(--accent);
+  font-size:24px;
+}
+
+.reservation-form{
+  display:flex;
+  flex-direction:column;
+  gap:13px;
+}
+
+.reservation-field{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}
+
+.reservation-field > span{
+  color:var(--muted);
+  font-size:13px;
+}
+
+.reservation-field input,
+.reservation-field textarea{
+  width:100%;
+  padding:11px 12px;
+  border:1px solid var(--line);
+  border-radius:6px;
+  background:rgba(255,255,255,.05);
+  color:var(--text);
+  font:inherit;
+}
+
+.reservation-field input:focus,
+.reservation-field textarea:focus{
+  outline:3px solid rgba(105,240,174,.14);
+  border-color:rgba(105,240,174,.5);
+}
+
+.reservation-field small{
+  color:#fca5a5;
+}
+
+.reservation-form .btn{
+  border-radius:8px;
+}
+
+.reservation-form-note{
+  color:var(--muted);
+  font-size:12px;
+  text-align:center;
+}
+
+.reservation-return{
+  padding:18px;
+}
+
+.reservation-complete{
+  min-height:calc(100vh - 68px);
+  display:flex;
+  align-items:center;
+}
+
+.reservation-complete-panel{
+  max-width:620px;
+  margin:0 auto;
+  padding:28px;
+  border-radius:8px;
+  text-align:center;
+}
+
+.reservation-complete-panel h1,
+.reservation-complete-panel p{
+  margin:0;
+}
+
+.reservation-complete-panel .btn{
+  margin-top:18px;
+}
+
+.reservation-complete-mark{
+  width:48px;
+  height:48px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:14px;
+  border-radius:50%;
+  background:rgba(134,239,172,.16);
+  color:var(--good);
+  font-size:24px;
+}
+
+@media (max-width: 760px){
+  .reservation-package-head,
+  .reservation-package-footer{
+    align-items:flex-start;
+  }
+
+  .reservation-apartment-row{
+    grid-template-columns:72px minmax(0, 1fr);
+  }
+
+  .reservation-apartment-row img{
+    width:72px;
+  }
+
+  .reservation-apartment-placeholder{
+    width:72px;
+  }
+
+  .reservation-apartment-row > strong{
+    grid-column:2;
+  }
+
+  .reservation-confirm-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media (max-width: 520px){
+  .reservation-results-head,
+  .reservation-package-head,
+  .reservation-package-footer{
+    flex-direction:column;
+  }
+
+  .reservation-package-price{
+    text-align:left;
+  }
+
+  .reservation-package-footer .btn{
+    width:100%;
+  }
+}

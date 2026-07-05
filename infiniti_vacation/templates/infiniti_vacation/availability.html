@@ -7,7 +7,9 @@
   <meta name="color-scheme" content="dark light" />
   <title>Dostepne terminy &middot; Infiniti Vacation</title>
   <meta name="description" content="Kalendarz dostepnosci apartamentow Infiniti Vacation." />
-  <link rel="stylesheet" href="{% static 'infiniti_vacation/css/site.css' %}?v=availability-4">
+  <link rel="stylesheet" href="{% static 'infiniti_vacation/css/site.css' %}?v=availability-5">
+  {# SNAKE MODULE: remove this stylesheet, the include below and snake-game.js. #}
+  <link rel="stylesheet" href="{% static 'infiniti_vacation/css/snake-game.css' %}?v=1">
 </head>
 
 <body>
@@ -209,12 +211,29 @@
                     <div class="day-grid">
                       {% for week in month.weeks %}
                         {% for day in week %}
-                          <span
-                            class="day-cell{% if not day.in_month %} is-muted{% elif day.is_blocked %} is-booked{% else %} is-available{% endif %}{% if day.is_today %} is-today{% endif %}"
-                            title="{{ day.date|date:'d.m.Y' }}{% if day.in_month and day.is_blocked %} - zajete{% elif day.in_month %} - wolne{% endif %}"
-                          >
-                            {{ day.number }}
-                          </span>
+                          {% if day.in_month %}
+                            <button
+                              type="button"
+                              class="day-cell{% if day.is_blocked %} is-booked{% else %} is-available{% endif %}{% if day.is_today %} is-today{% endif %}"
+                              aria-label="{{ day.date|date:'d.m.Y' }}, {{ calendar.apartment.name }}, {{ day.status_label }}, {{ day.price }} zl za noc"
+                            >
+                              <span class="day-number">{{ day.number }}</span>
+                              <span class="day-tooltip" role="tooltip">
+                                <strong class="day-tooltip-date">{{ day.date|date:"d.m.Y" }}</strong>
+                                <span class="day-tooltip-room">{{ calendar.apartment.name }}</span>
+                                <span class="day-tooltip-status{% if day.is_blocked %} is-closed{% else %} is-open{% endif %}">
+                                  {{ day.status_label }}
+                                </span>
+                                <span class="day-tooltip-price">
+                                  <span>Cena za noc</span>
+                                  <strong>{{ day.price }} z&#322;</strong>
+                                </span>
+                                <span class="day-tooltip-note">{{ day.price_note }}</span>
+                              </span>
+                            </button>
+                          {% else %}
+                            <span class="day-cell is-muted" aria-hidden="true">{{ day.number }}</span>
+                          {% endif %}
                         {% endfor %}
                       {% endfor %}
                     </div>
@@ -227,10 +246,14 @@
       </div>
     </section>
     {% endif %}
+
+    {# SNAKE MODULE: self-contained and safe to remove. #}
+    {% include "infiniti_vacation/partials/snake_game.html" %}
   </main>
 
   {% include "infiniti_vacation/partials/footer.html" %}
 
   <script src="{% static 'infiniti_vacation/js/site.js' %}"></script>
+  <script src="{% static 'infiniti_vacation/js/snake-game.js' %}"></script>
 </body>
 </html>

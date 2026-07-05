@@ -1,0 +1,59 @@
+<section class="section snake-module" aria-labelledby="snake-title" data-snake-game>
+  <div class="container">
+    <div class="snake-game card">
+      <div class="snake-sidebar">
+        <div>
+          <p class="hero-kicker">Chwila przerwy</p>
+          <h2 id="snake-title">Snake</h2>
+          <p class="muted">Zlap zielone punkty i pobij swoj rekord.</p>
+        </div>
+
+        <div class="snake-scoreboard" aria-live="polite">
+          <div>
+            <span>Wynik</span>
+            <strong data-snake-score>0</strong>
+          </div>
+          <div>
+            <span>Rekord</span>
+            <strong data-snake-best>0</strong>
+          </div>
+        </div>
+
+        <div class="snake-actions">
+          <button class="btn primary snake-start" type="button" data-snake-start>
+            <span aria-hidden="true">&#9654;</span>
+            <span data-snake-start-label>Graj</span>
+          </button>
+          <button class="icon-btn" type="button" data-snake-pause aria-label="Pauza" title="Pauza" disabled>
+            <span aria-hidden="true">&#10074;&#10074;</span>
+          </button>
+          <button class="icon-btn" type="button" data-snake-reset aria-label="Nowa gra" title="Nowa gra">
+            <span aria-hidden="true">&#8635;</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="snake-play-area">
+        <div class="snake-stage">
+          <canvas
+            width="400"
+            height="400"
+            tabindex="0"
+            data-snake-canvas
+            aria-label="Plansza gry Snake"
+          ></canvas>
+          <div class="snake-overlay" data-snake-overlay>
+            <strong data-snake-message>Gotowy?</strong>
+          </div>
+        </div>
+
+        <div class="snake-pad" aria-label="Sterowanie Snake">
+          <button type="button" data-snake-direction="up" aria-label="Gora">&#8593;</button>
+          <button type="button" data-snake-direction="left" aria-label="Lewo">&#8592;</button>
+          <button type="button" data-snake-direction="down" aria-label="Dol">&#8595;</button>
+          <button type="button" data-snake-direction="right" aria-label="Prawo">&#8594;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

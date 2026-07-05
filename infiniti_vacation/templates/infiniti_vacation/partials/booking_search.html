@@ -1,0 +1,76 @@
+<section class="booking-search-section" aria-label="Wyszukaj pobyt" data-booking-search data-max-rooms="{{ booking_max_rooms|default:4 }}">
+  <div class="container">
+    <form class="booking-search card" method="get" action="{% url 'infiniti_vacation:reservation_search' %}" novalidate>
+      <input type="hidden" name="check_in" value="{{ booking_check_in|default:'' }}" data-booking-check-in>
+      <input type="hidden" name="check_out" value="{{ booking_check_out|default:'' }}" data-booking-check-out>
+
+      <div class="booking-search-intro">
+        <span class="booking-search-eyebrow">Infiniti Vacation</span>
+        <strong>Znajdz swoj pobyt</strong>
+      </div>
+
+      <button class="booking-search-field" type="button" data-booking-date-trigger="check_in" aria-expanded="false">
+        <span>Przyjazd</span>
+        <strong data-booking-check-in-label>Wybierz date</strong>
+      </button>
+
+      <button class="booking-search-field" type="button" data-booking-date-trigger="check_out" aria-expanded="false">
+        <span>Wyjazd</span>
+        <strong data-booking-check-out-label>Wybierz date</strong>
+      </button>
+
+      <div class="booking-guests-wrap">
+        <button class="booking-search-field" type="button" data-booking-guests-trigger aria-expanded="false">
+          <span>Goscie i apartamenty</span>
+          <strong data-booking-guests-label></strong>
+        </button>
+
+        <div class="booking-guests-popover" data-booking-guests-popover hidden>
+          <div class="booking-counter-row">
+            <div>
+              <strong>Goscie</strong>
+              <span>Laczna liczba osob</span>
+            </div>
+            <div class="booking-stepper">
+              <button type="button" data-booking-step="guests" data-delta="-1" aria-label="Mniej gosci">&minus;</button>
+              <strong data-booking-guests-count>{{ booking_guests|default:2 }}</strong>
+              <button type="button" data-booking-step="guests" data-delta="1" aria-label="Wiecej gosci">+</button>
+            </div>
+          </div>
+          <div class="booking-counter-row">
+            <div>
+              <strong>Apartamenty</strong>
+              <span>Maksymalnie {{ booking_max_rooms|default:4 }}</span>
+            </div>
+            <div class="booking-stepper">
+              <button type="button" data-booking-step="rooms" data-delta="-1" aria-label="Mniej apartamentow">&minus;</button>
+              <strong data-booking-rooms-count>{{ booking_rooms|default:1 }}</strong>
+              <button type="button" data-booking-step="rooms" data-delta="1" aria-label="Wiecej apartamentow">+</button>
+            </div>
+          </div>
+          <button class="btn primary full" type="button" data-booking-guests-close>Gotowe</button>
+        </div>
+      </div>
+
+      <input type="hidden" name="guests" value="{{ booking_guests|default:2 }}" data-booking-guests>
+      <input type="hidden" name="rooms" value="{{ booking_rooms|default:1 }}" data-booking-rooms>
+
+      <button class="btn primary booking-search-submit" type="submit">Szukaj</button>
+
+      <div class="booking-calendar-popover" data-booking-calendar hidden>
+        <div class="booking-calendar-toolbar">
+          <button class="icon-btn" type="button" data-booking-month-prev aria-label="Poprzedni miesiac">&larr;</button>
+          <div class="booking-calendar-selection" aria-live="polite" data-booking-selection>Wybierz date przyjazdu</div>
+          <button class="icon-btn" type="button" data-booking-month-next aria-label="Nastepny miesiac">&rarr;</button>
+        </div>
+        <div class="booking-calendar-months" data-booking-months></div>
+        <div class="booking-calendar-footer">
+          <span data-booking-nights>Wybierz termin pobytu</span>
+          <button class="btn primary" type="button" data-booking-calendar-close disabled>Gotowe</button>
+        </div>
+      </div>
+
+      <p class="booking-search-error" data-booking-error role="alert" hidden></p>
+    </form>
+  </div>
+</section>

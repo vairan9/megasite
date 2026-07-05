@@ -1,0 +1,186 @@
+.snake-module{
+  padding-top:34px;
+  padding-bottom:42px;
+}
+
+.snake-game{
+  display:grid;
+  grid-template-columns:minmax(220px, .7fr) minmax(300px, 1.3fr);
+  gap:22px;
+  padding:22px;
+  overflow:visible;
+}
+
+.snake-sidebar{
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  gap:24px;
+  min-width:0;
+}
+
+.snake-sidebar h2,
+.snake-sidebar p{
+  margin:0;
+}
+
+.snake-sidebar h2{
+  font-size:32px;
+  line-height:1.15;
+}
+
+.snake-scoreboard{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  gap:10px;
+}
+
+.snake-scoreboard div{
+  padding:12px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:rgba(255,255,255,.04);
+}
+
+.snake-scoreboard span,
+.snake-scoreboard strong{
+  display:block;
+}
+
+.snake-scoreboard span{
+  color:var(--muted);
+  font-size:12px;
+}
+
+.snake-scoreboard strong{
+  margin-top:2px;
+  font-size:24px;
+  line-height:1.1;
+}
+
+.snake-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.snake-start{
+  min-width:116px;
+  gap:8px;
+}
+
+.snake-actions button:disabled{
+  opacity:.42;
+  cursor:not-allowed;
+  transform:none;
+}
+
+.snake-play-area{
+  min-width:0;
+}
+
+.snake-stage{
+  position:relative;
+  width:min(100%, 520px);
+  aspect-ratio:1;
+  margin-left:auto;
+  overflow:hidden;
+  border:1px solid rgba(105,240,174,.22);
+  border-radius:8px;
+  background:#041009;
+  box-shadow:inset 0 0 40px rgba(0,0,0,.28);
+}
+
+.snake-stage canvas{
+  width:100%;
+  height:100%;
+  display:block;
+  outline:none;
+  touch-action:none;
+}
+
+.snake-stage canvas:focus-visible{
+  box-shadow:inset 0 0 0 3px rgba(125,211,252,.48);
+}
+
+.snake-overlay{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  background:rgba(4,16,9,.52);
+  pointer-events:none;
+}
+
+.snake-overlay[hidden]{
+  display:none;
+}
+
+.snake-overlay strong{
+  padding:9px 12px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:rgba(4,16,9,.88);
+  font-size:16px;
+}
+
+.snake-pad{
+  display:none;
+  grid-template-columns:repeat(3, 48px);
+  grid-template-areas:
+    ". up ."
+    "left down right";
+  justify-content:center;
+  gap:7px;
+  margin-top:14px;
+}
+
+.snake-pad button{
+  width:48px;
+  height:44px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:rgba(255,255,255,.06);
+  color:var(--text);
+  font:inherit;
+  font-size:20px;
+  cursor:pointer;
+  touch-action:manipulation;
+}
+
+.snake-pad button:active{
+  background:rgba(105,240,174,.18);
+}
+
+.snake-pad [data-snake-direction="up"]{ grid-area:up; }
+.snake-pad [data-snake-direction="left"]{ grid-area:left; }
+.snake-pad [data-snake-direction="down"]{ grid-area:down; }
+.snake-pad [data-snake-direction="right"]{ grid-area:right; }
+
+@media (max-width: 760px){
+  .snake-game{
+    grid-template-columns:1fr;
+    padding:16px;
+  }
+
+  .snake-sidebar{
+    gap:16px;
+  }
+
+  .snake-stage{
+    width:100%;
+    margin:0;
+  }
+
+  .snake-pad{
+    display:grid;
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .snake-game *{
+    transition:none !important;
+  }
+}
